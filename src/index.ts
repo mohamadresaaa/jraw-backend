@@ -1,4 +1,4 @@
 import core from "./core"
 
-/** creating new instance from ApplicationCore */
+/** Creating new instance from ApplicationCore */
 new core().initialize()
