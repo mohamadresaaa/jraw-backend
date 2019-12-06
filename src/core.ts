@@ -1,7 +1,6 @@
 import express from "express"
 import { createServer } from "http"
 
-
 export default class ApplicationCore {
     /** @define app */
     private app: express.Application
