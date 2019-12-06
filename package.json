@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tslint": "tslint -p . -c tslint.json",
+    "tslint": "tslint --fix -p . -c tslint.json",
     "test": "jest --passWithNoTests"
   },
   "repository": {
