@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tslint": "tslint --fix -p . -c tslint.json",
-    "test": "jest --passWithNoTests"
+    "dev": "nodemon -e ts -w ./ -x npm run start",
+    "start": "tsc && node dist",
+    "test": "jest --passWithNoTests",
+    "tslint": "tslint --fix -p . -c tslint.json"
   },
   "repository": {
     "type": "git",
@@ -30,6 +32,7 @@
     "jest": "^24.9.0",
     "nodemon": "^2.0.1",
     "ts-jest": "^24.2.0",
+    "ts-node": "^8.5.4",
     "tslint": "^5.20.1",
     "typescript": "^3.7.3"
   },
