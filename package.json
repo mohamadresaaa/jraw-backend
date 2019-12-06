@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "eslint": "eslint --fix ./",
     "test": "jest --passWithNoTests"
   },
   "repository": {
