@@ -4,6 +4,7 @@ import helmet from "helmet"
 import { createServer } from "http"
 import mongoose from "mongoose"
 import morgan from "morgan"
+import logger from "./utilities/logger"
 
 export default class ApplicationCore {
     /** @define app */
@@ -23,7 +24,7 @@ export default class ApplicationCore {
     /** Setup server with express */
     private setupExpress() {
         const server = createServer(this.app)
-        server.listen(3000, () => console.log("Server running on port 3000"))
+        server.listen(5000, () => logger("Server running on port 3000"))
     }
 
     /** Setup mongodb and set config */
@@ -32,7 +33,7 @@ export default class ApplicationCore {
         mongoose.connect("", {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-        }, (error) => console.log(error ? error.message : "Connect to database"))
+        }, (error) => logger(error ? error.message : "Connect to database", error ? "red" : undefined))
     }
 
     /** Setup packages
