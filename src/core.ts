@@ -4,6 +4,7 @@ import helmet from "helmet"
 import { createServer } from "http"
 import mongoose from "mongoose"
 import morgan from "morgan"
+import { apiError404, apiErrorHandler } from "./middleware/errorHandle"
 import logger from "./utilities/logger"
 
 export default class ApplicationCore {
@@ -19,12 +20,13 @@ export default class ApplicationCore {
         this.setupExpress()
         this.setupMongodb()
         this.configuration()
+        this.setupRoutes()
     }
 
     /** Setup server with express */
     private setupExpress() {
         const server = createServer(this.app)
-        server.listen(5000, () => logger("Server running on port 3000"))
+        server.listen(6000, () => logger("Server running on port 3000"))
     }
 
     /** Setup mongodb and set config */
@@ -45,5 +47,11 @@ export default class ApplicationCore {
         this.app.use(bodyParser.json())
         this.app.use(bodyParser.urlencoded({ extended: true }))
         this.app.use(morgan("dev"))
+    }
+
+    /** Setup routes */
+    private setupRoutes() {
+        this.app.use("*", apiError404)
+        this.app.use(apiErrorHandler)
     }
 }
