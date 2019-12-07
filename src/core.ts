@@ -1,4 +1,5 @@
 import express from "express"
+import helmet from "helmet"
 import { createServer } from "http"
 import mongoose from "mongoose"
 
@@ -14,6 +15,7 @@ export default class ApplicationCore {
     public initialize() {
         this.setupExpress()
         this.setupMongodb()
+        this.configuration()
     }
 
     /** Setup server with express */
@@ -29,5 +31,12 @@ export default class ApplicationCore {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         }, (error) => console.log(error ? error.message : "Connect to database"))
+    }
+
+    /** Setup packages
+     * @package helmet
+     */
+    private configuration() {
+        this.app.use(helmet())
     }
 }
