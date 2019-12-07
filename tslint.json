@@ -9,7 +9,8 @@
         "no-console": [true, "error", "info", "warn"],
         "member-access": [false],
         "member-ordering": [false],
-        "max-classes-per-file": [true, 3]
+        "max-classes-per-file": [true, 3],
+        "no-var-requires": false
     },
     "rulesDirectory": []
 }

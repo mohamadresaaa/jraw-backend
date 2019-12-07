@@ -4,6 +4,7 @@ import helmet from "helmet"
 import { createServer } from "http"
 import mongoose from "mongoose"
 import morgan from "morgan"
+import { config } from "./config"
 import { apiError404, apiErrorHandler } from "./middleware/errorHandle"
 import logger from "./utilities/logger"
 
@@ -26,15 +27,15 @@ export default class ApplicationCore {
     /** Setup server with express */
     private setupExpress() {
         const server = createServer(this.app)
-        server.listen(6000, () => logger("Server running on port 3000"))
+        server.listen(config.server.port,
+            () => logger(`Server running on port ${config.server.port}`))
     }
 
     /** Setup mongodb and set config */
     private setupMongodb() {
         mongoose.Promise = global.Promise
-        mongoose.connect("", {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
+        mongoose.connect(config.database.mongodb.url, {
+            ...config.database.mongodb.options,
         }, (error) => logger(error ? error.message : "Connect to database", error ? "red" : undefined))
     }
 
