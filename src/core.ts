@@ -3,6 +3,7 @@ import express from "express"
 import helmet from "helmet"
 import { createServer } from "http"
 import mongoose from "mongoose"
+import morgan from "morgan"
 
 export default class ApplicationCore {
     /** @define app */
@@ -42,5 +43,6 @@ export default class ApplicationCore {
         this.app.use(helmet())
         this.app.use(bodyParser.json())
         this.app.use(bodyParser.urlencoded({ extended: true }))
+        this.app.use(morgan("dev"))
     }
 }
