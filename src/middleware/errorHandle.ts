@@ -1,7 +1,7 @@
 import { ErrorRequestHandler, NextFunction, Response } from "express"
 import { unlinkSync } from "fs"
 import { ErrorMessage, PublicErrorMessage } from "../lib/messages"
-import { IRequest } from "./../../@types/interface/express"
+import { IRequest } from "../typings/interface/express"
 
 export const apiErrorHandler: ErrorRequestHandler = (error: any, req: IRequest, res: Response, next: NextFunction) => {
   if (req.file) {

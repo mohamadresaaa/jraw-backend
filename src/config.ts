@@ -1,3 +1,4 @@
+// tslint:disable-next-line: no-var-requires
 require("dotenv").config()
 
 export const config = {
@@ -12,6 +13,6 @@ export const config = {
     },
     server: {
         logLevel: process.env.LOG_LEVEL || "dev",
-        port: process.env.PORT || 7000,
+        port: process.env.PORT || 8000,
     },
 }
