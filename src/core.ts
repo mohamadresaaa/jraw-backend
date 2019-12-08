@@ -6,6 +6,7 @@ import mongoose from "mongoose"
 import morgan from "morgan"
 import { config } from "./config"
 import { apiError404, apiErrorHandler } from "./middleware/errorHandle"
+import routes from "./routes"
 import logger from "./utilities/logger"
 
 export default class ApplicationCore {
@@ -52,6 +53,7 @@ export default class ApplicationCore {
 
     /** Setup routes */
     private setupRoutes() {
+        this.app.use("/api", routes)
         this.app.use("*", apiError404)
         this.app.use(apiErrorHandler)
     }
