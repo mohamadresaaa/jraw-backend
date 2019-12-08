@@ -16,7 +16,7 @@ export const validator = (schema: ObjectSchema) => {
         unlinkSync(req.file.path)
       }
       // get message of error
-      const message: string = error.details[0].message.replace(/(\\")+/g, "")
+      const message: string = error.details[0].message.replace(/(\")+/g, "")
 
       // return error
       return res.status(422).json(new ErrorMessage("Invalid Data", message, 422))
