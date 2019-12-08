@@ -9,6 +9,7 @@ const versions: string[] = readdirSync(resolve(__dirname)).filter((item: string)
 
 // use routes version
 for (const version of versions) {
+  // tslint:disable-next-line: no-var-requires
   router.use(`/${version}`, require(`${resolve(__dirname, version)}`))
 }
 
