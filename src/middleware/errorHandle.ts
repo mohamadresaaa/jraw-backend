@@ -1,11 +1,11 @@
-import { NextFunction, Response } from "express"
-import fs from "fs"
+import { ErrorRequestHandler, NextFunction, Response } from "express"
+import { unlinkSync } from "fs"
 import { ErrorMessage, PublicErrorMessage } from "../lib/messages"
-import { IRequest } from "./../../@types/express"
+import { IRequest } from "./../../@types/interface/express"
 
-export const apiErrorHandler = (error: any, req: IRequest, res: Response, next: NextFunction) => {
+export const apiErrorHandler: ErrorRequestHandler = (error: any, req: IRequest, res: Response, next: NextFunction) => {
   if (req.file) {
-    fs.unlinkSync(req.file.path)
+    unlinkSync(req.file.path)
   }
 
   switch (process.env.MODE || "development") {
