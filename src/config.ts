@@ -5,10 +5,11 @@ export const config = {
     database: {
         mongodb: {
             options: {
+                useCreateIndex: true,
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
             },
-            url: process.env.DATABASE_URL || "",
+            url: process.env.DATABASE_URL || "mongodb://127.0.0.1:27017/jrawDB",
         },
     },
     server: {

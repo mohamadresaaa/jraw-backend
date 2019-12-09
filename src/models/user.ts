@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose"
 import IUser from "../typings/interface/user"
+import { ErrorMessage } from "./../lib/messages"
 
 const userSchema = new Schema({
   avatar: {
@@ -47,5 +48,14 @@ const userSchema = new Schema({
     unique: true,
   },
 }, { timestamps: true })
+
+// Manage and prevent copy information from being imported { email, username }
+userSchema.post("save", function(error: any, doc: any, next: any) {
+  if (error.name === "MongoError" && error.code === 11000) {
+    next(new ErrorMessage("Exists Data", `${error.keyPattern.username ? "Username" : "Email"} is already`, 422))
+  } else {
+    next()
+  }
+})
 
 export default mongoose.model<IUser>("User", userSchema)

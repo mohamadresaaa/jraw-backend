@@ -10,7 +10,8 @@
         "member-access": [false],
         "member-ordering": [false],
         "max-classes-per-file": [true, 3],
-        "new-parens": false
+        "new-parens": false,
+        "only-arrow-functions": false
     },
     "rulesDirectory": []
 }
