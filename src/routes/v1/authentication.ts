@@ -3,6 +3,7 @@ import { accountActivation, forgotPassword, login, register, resetPassword } fro
 import { validator } from "./../../middleware/validator"
 
 // controllers
+import accountController from "../../controllers/v1/authentication/accountController"
 import loginController from "../../controllers/v1/authentication/loginController"
 import registerController from "../../controllers/v1/authentication/registerController"
 
@@ -12,7 +13,9 @@ const router = express.Router()
 router.post("/register",
             validator(register),
             registerController.local.bind(registerController))
-router.post("/accountActivation", validator(accountActivation), (req, res, next) => res.json("accountActivation"))
+router.post("/accountActivation",
+            validator(accountActivation),
+            accountController.activation.bind(accountController))
 router.post("/login",
             validator(login),
             loginController.local.bind(loginController))
