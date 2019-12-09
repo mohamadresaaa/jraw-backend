@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose"
+import IUser from "../typings/interface/user"
 
 const userSchema = new Schema({
   avatar: {
@@ -47,4 +48,4 @@ const userSchema = new Schema({
   },
 }, { timestamps: true })
 
-export default mongoose.model("User", userSchema)
+export default mongoose.model<IUser>("User", userSchema)
