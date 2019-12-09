@@ -5,6 +5,10 @@ import BaseController from "../baseController"
 
 export default new class AccountController extends BaseController {
     async activation(req: IRequest, res: Response, next: NextFunction) {
-        this.showSuccessMessage(res, new PublicInfoMessage("account controller", 200))
+        this.showSuccessMessage(res, new PublicInfoMessage("account controller: activation", 200))
+    }
+
+    async deactivation(req: IRequest, res: Response, next: NextFunction) {
+        this.showSuccessMessage(res, new PublicInfoMessage("account controller: deactivation", 200))
     }
 }
