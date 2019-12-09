@@ -1,11 +1,11 @@
-import autoBind from "auto-bind"
+// import autoBind from "auto-bind"
 import { Response } from "express"
 import { ErrorMessage, PublicInfoMessage } from "src/lib/messages"
 
-export default class BaseController {
-    constructor() {
-        autoBind(this)
-    }
+export default abstract class BaseController {
+    // constructor() {
+    //     autoBind(this)
+    // }
 
     /** Show error message
      * @param {object} error
