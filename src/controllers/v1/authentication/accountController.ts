@@ -2,8 +2,8 @@ import { NextFunction, Response } from "express"
 import { ErrorMessage, PublicInfoMessage } from "../../../lib/messages"
 import user from "../../../models/user"
 import verificationCode from "../../../models/verificationCode"
+import { status } from "../../../typings/enum/user"
 import { IRequest } from "../../../typings/interface/express"
-import { status } from "../../../typings/interface/user"
 import IVerificationCode from "../../../typings/interface/verificationCode"
 import BaseController from "../baseController"
 
@@ -31,7 +31,7 @@ export default new class AccountController extends BaseController {
                 }
 
                 // Find user with id
-                await user.findOneAndUpdate({ _id: verifyCode.user }, { status: status.activated })
+                await user.findOneAndUpdate({ _id: verifyCode.user }, { status: status.enable })
 
                 // Return message
                 return this.showSuccessMessage(res, new PublicInfoMessage(

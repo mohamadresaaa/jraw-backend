@@ -1,15 +1,5 @@
 import { Document } from "mongoose"
-
-export enum role {
-    user = "user",
-    admin = "admin",
-}
-
-export enum status {
-    activated = "activated",
-    deactivated = "deactivated",
-    blocked = "blocked",
-}
+import { role, status } from "./../enum/user"
 
 export default interface IUser extends Document {
     avatar?: string

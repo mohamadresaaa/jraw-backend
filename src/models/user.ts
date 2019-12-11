@@ -36,8 +36,8 @@ const userSchema = new Schema({
     type: String,
   },
   status: {
-    default: "deactivated",
-    enum: ["activated", "deactivated", "blocked"],
+    default: "inactive",
+    enum: ["active", "inactive", "block"],
     type: String,
   },
   username: {
