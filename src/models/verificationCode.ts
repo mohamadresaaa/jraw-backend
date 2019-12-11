@@ -1,8 +1,10 @@
 import mongoose, { Schema } from "mongoose"
+import { v4 } from "uuid"
 import IVerificationCode from "../typings/interface/verificationCode"
 
 const verificationCodeSchema = new Schema({
     code: {
+        default: v4(),
         required: true,
         type: String,
         unique: true,
