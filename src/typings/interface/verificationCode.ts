@@ -7,4 +7,5 @@ export default interface IVerificationCode extends Document {
     user: IUser
     createdAt: Date
     updatedAt: Date
+    isExpired(): boolean
 }

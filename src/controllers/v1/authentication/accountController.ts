@@ -23,7 +23,7 @@ export default new class AccountController extends BaseController {
             // If find verification code, handle it
             if (verifyCode) {
                 // If verification code is not valid
-                if (!(verifyCode.createdAt >= new Date(new Date().setDate(new Date().getDate() - 1)))) {
+                if (verifyCode.isExpired()) {
                     this.showErrorMessage(new ErrorMessage(
                         "Expired verification code",
                         "Verification code has expired",
