@@ -1,7 +1,7 @@
 import joi from "@hapi/joi"
 
 export const accountActivation = joi.object().keys({
-  verCode: joi.string().required(),
+  code: joi.string().required(),
 })
 
 export const forgotPassword = joi.object().keys({

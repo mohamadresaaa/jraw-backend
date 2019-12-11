@@ -6,6 +6,7 @@ export const config = {
         mongodb: {
             options: {
                 useCreateIndex: true,
+                useFindAndModify: false,
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
             },

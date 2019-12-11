@@ -1,11 +1,49 @@
 import { NextFunction, Response } from "express"
-import { PublicInfoMessage } from "../../../lib/messages"
+import { ErrorMessage, PublicInfoMessage } from "../../../lib/messages"
+import user from "../../../models/user"
+import verificationCode from "../../../models/verificationCode"
 import { IRequest } from "../../../typings/interface/express"
+import { status } from "../../../typings/interface/user"
+import IVerificationCode from "../../../typings/interface/verificationCode"
 import BaseController from "../baseController"
 
 export default new class AccountController extends BaseController {
+    /** Activate account with verification code
+     * @param code
+     * @returns message
+     */
     async activation(req: IRequest, res: Response, next: NextFunction) {
-        this.showSuccessMessage(res, new PublicInfoMessage("account controller: activation", 200))
+        try {
+            // Get code
+            const { code } = req.body
+
+            // Find verification code
+            const verifyCode: IVerificationCode | null = await verificationCode.findOne({ code })
+
+            // If find verification code, handle it
+            if (verifyCode) {
+                // If verification code is not valid
+                if (!(verifyCode.createdAt >= new Date(new Date().setDate(new Date().getDate() - 1)))) {
+                    this.showErrorMessage(new ErrorMessage(
+                        "Expired verification code",
+                        "Verification code has expired",
+                        400))
+                }
+
+                // Find user with id
+                await user.findOneAndUpdate({ _id: verifyCode.user }, { status: status.activated })
+
+                // Return message
+                return this.showSuccessMessage(res, new PublicInfoMessage(
+                    "Your account has been successfully activated",
+                    200))
+            }
+
+            // If no verification code is found
+            this.showErrorMessage(new ErrorMessage("Invalid Data", "Verification code is incorrect", 422))
+        } catch (error) {
+            next(error)
+        }
     }
 
     async deactivation(req: IRequest, res: Response, next: NextFunction) {
