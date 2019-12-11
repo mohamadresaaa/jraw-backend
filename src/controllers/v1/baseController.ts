@@ -21,7 +21,7 @@ export default abstract class BaseController {
      * @returns {response} res.status(200).json({ message, status, properties })
      */
     showSuccessMessage(res: Response, data: PublicInfoMessage) {
-        return res.status(data.status).json(data)
+        res.status(data.status).json(data)
     }
 
 }

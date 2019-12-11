@@ -24,7 +24,7 @@ export default new class RegisterController extends BaseController {
             await new verificationCode({ field: "email", user: newUser.id }).save()
 
             // Return message
-            this.showSuccessMessage(res, new PublicInfoMessage("Your account was successfully registered. Please refer to your email for activation", 200))
+            return this.showSuccessMessage(res, new PublicInfoMessage("Your account was successfully registered. Please refer to your email for activation", 200))
         } catch (error) {
             next(error)
         }
