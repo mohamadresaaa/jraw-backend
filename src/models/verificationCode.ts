@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose"
+import IVerificationCode from "../typings/interface/verificationCode"
 
 const verificationCodeSchema = new Schema({
     code: {
@@ -17,4 +18,4 @@ const verificationCodeSchema = new Schema({
     },
 }, { timestamps: true })
 
-export default mongoose.model("verificationCode", verificationCodeSchema)
+export default mongoose.model<IVerificationCode>("verificationCode", verificationCodeSchema)
