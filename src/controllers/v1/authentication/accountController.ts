@@ -47,7 +47,41 @@ export default new class AccountController extends BaseController {
         }
     }
 
+    /** deactivate account with verification code
+     * @param code
+     * @returns message
+     */
     async deactivation(req: IRequest, res: Response, next: NextFunction) {
-        this.showSuccessMessage(res, new PublicInfoMessage("account controller: deactivation", 200))
+        try {
+            // Get code
+            const { code } = req.body
+
+            // Find verification code
+            const verifyCode: IVerificationCode | null = await verificationCode.findOne({
+                code,
+                expiryDate: { $gt: new Date() },
+                process: process.accountDeactivation,
+                used: false,
+            })
+
+            // If find verification code, handle it
+            if (verifyCode) {
+                // Find user with id
+                await user.findOneAndUpdate({ _id: verifyCode.user }, { status: status.inactive })
+
+                // Expire verification code
+                await verifyCode.updateOne({ used: true })
+
+                // Return message
+                return this.showSuccessMessage(res, new PublicInfoMessage(
+                    "Your account has been successfully deactivated",
+                    200))
+            }
+
+            // If no verification code is found Or verification code is expired
+            this.showErrorMessage(new ErrorMessage("Invalid Data", "Verification code is incorrect", 400))
+        } catch (error) {
+            next(error)
+        }
     }
 }
