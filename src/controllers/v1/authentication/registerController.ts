@@ -38,6 +38,6 @@ export default new class RegisterController extends BaseController {
      * @returns user
      */
     private async generateUser(data: { email: string, password: string, username: string }) {
-        return await new user({ ...data }).save()
+        return new user({ ...data }).save()
     }
 }

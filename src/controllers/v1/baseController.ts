@@ -34,7 +34,7 @@ export default abstract class BaseController {
      * @param {string} data
      */
     protected async generateVerificationCode(expiryDate: Date, processAction: process, user: IUser, data?: string) {
-        return await new verificationCode({
+        return new verificationCode({
             data,
             expiryDate,
             process: processAction,
