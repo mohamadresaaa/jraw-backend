@@ -13,6 +13,10 @@ const verificationCodeSchema = new Schema({
         required: true,
         type: String,
     },
+    used: {
+        default: false,
+        type: Boolean,
+    },
     user: {
         ref: "User",
         required: true,
