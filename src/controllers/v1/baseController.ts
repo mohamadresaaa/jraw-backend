@@ -1,6 +1,9 @@
 // import autoBind from "auto-bind"
 import { Response } from "express"
 import { ErrorMessage, PublicInfoMessage } from "src/lib/messages"
+import verificationCode from "./../../models/verificationCode"
+import { process } from "./../../typings/enum/verificationCode"
+import IUser from "./../../typings/interface/user"
 
 export default abstract class BaseController {
     // constructor() {
@@ -11,7 +14,7 @@ export default abstract class BaseController {
      * @param {object} error
      * @returns error
      */
-    showErrorMessage(error: ErrorMessage) {
+    protected showErrorMessage(error: ErrorMessage) {
         throw error
     }
 
@@ -20,8 +23,23 @@ export default abstract class BaseController {
      * @param {object} data
      * @returns {response} res.status(200).json({ message, status, properties })
      */
-    showSuccessMessage(res: Response, data: PublicInfoMessage) {
+    protected showSuccessMessage(res: Response, data: PublicInfoMessage) {
         res.status(data.status).json(data)
+    }
+
+    /** Generate verification code
+     * @param {date} expiryDate
+     * @param {number} processAction
+     * @param {string} user
+     * @param {string} data
+     */
+    protected async generateVerificationCode(expiryDate: Date, processAction: process, user: IUser, data?: string) {
+        return await new verificationCode({
+            data,
+            expiryDate,
+            process: processAction,
+            user,
+        }).save()
     }
 
 }
