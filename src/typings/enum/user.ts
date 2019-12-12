@@ -1,10 +1,10 @@
 export enum role {
-    user = "user",
-    admin = "admin",
+    superAdmin,
+    user,
 }
 
 export enum status {
-    enable = "active",
-    disable = "inactive",
-    block = "block",
+    active,
+    block,
+    inactive,
 }

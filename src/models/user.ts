@@ -31,14 +31,12 @@ const userSchema = new Schema({
     type: String,
   },
   role: {
-    default: "user",
-    enum: ["user", "admin"],
-    type: String,
+    default: 1,
+    type: Number,
   },
   status: {
-    default: "inactive",
-    enum: ["active", "inactive", "block"],
-    type: String,
+    default: 2,
+    type: Number,
   },
   username: {
     lowercase: true,

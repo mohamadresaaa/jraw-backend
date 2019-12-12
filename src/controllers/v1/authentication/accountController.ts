@@ -29,7 +29,7 @@ export default new class AccountController extends BaseController {
             // If find verification code, handle it
             if (verifyCode) {
                 // Find user with id
-                await user.findOneAndUpdate({ _id: verifyCode.user }, { status: status.enable })
+                await user.findOneAndUpdate({ _id: verifyCode.user }, { status: status.active })
 
                 // Expire verification code
                 await verifyCode.updateOne({ used: true })
