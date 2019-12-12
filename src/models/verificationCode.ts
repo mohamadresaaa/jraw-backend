@@ -24,8 +24,21 @@ const verificationCodeSchema = new Schema({
     },
 }, { timestamps: true })
 
+/** Check the verification code expired
+ * @param {date} date
+ * @returns {boolean} true or false
+ */
 verificationCodeSchema.methods.isExpired = function(date: Date): boolean {
-    return !(this.createdAt >= date)
+    if (this.used) {
+        return true
+    } else {
+        if (!(this.createdAt >= date)) {
+            this.used = true
+            this.save()
+            return true
+        }
+        return false
+    }
 }
 
 export default mongoose.model<IVerificationCode>("verificationCode", verificationCodeSchema)

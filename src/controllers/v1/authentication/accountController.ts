@@ -22,8 +22,11 @@ export default new class AccountController extends BaseController {
 
             // If find verification code, handle it
             if (verifyCode) {
+                // Expiry date
+                const date = new Date(new Date().setDate(new Date().getDate() - 1))
+
                 // If verification code is expired
-                if (verifyCode.isExpired(new Date(new Date().setDate(new Date().getDate() - 1)))) {
+                if (verifyCode.isExpired(date)) {
                     this.showErrorMessage(new ErrorMessage(
                         "Expired verification code",
                         "Verification code has expired",
@@ -32,6 +35,9 @@ export default new class AccountController extends BaseController {
 
                 // Find user with id
                 await user.findOneAndUpdate({ _id: verifyCode.user }, { status: status.enable })
+
+                // Expire verification code
+                await verifyCode.updateOne({ used: true })
 
                 // Return message
                 return this.showSuccessMessage(res, new PublicInfoMessage(
