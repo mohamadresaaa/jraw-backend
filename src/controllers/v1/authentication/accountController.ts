@@ -40,7 +40,7 @@ export default new class AccountController extends BaseController {
                     200))
             }
 
-            // If no verification code is found Or verification code is expired
+            // If not verification code is found Or verification code is expired
             this.showErrorMessage(new ErrorMessage("Invalid Data", "Verification code is incorrect", 400))
         } catch (error) {
             next(error)
@@ -78,7 +78,7 @@ export default new class AccountController extends BaseController {
                     200))
             }
 
-            // If no verification code is found Or verification code is expired
+            // If not verification code is found Or verification code is expired
             this.showErrorMessage(new ErrorMessage("Invalid Data", "Verification code is incorrect", 400))
         } catch (error) {
             next(error)
