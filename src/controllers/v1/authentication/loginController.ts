@@ -1,5 +1,5 @@
 import { NextFunction, Response } from "express"
-import { PublicInfoMessage } from "../../../lib/messages"
+import { ErrorMessage, PublicInfoMessage } from "../../../lib/messages"
 import User from "../../../models/user"
 import { IRequest } from "../../../typings/interface/express"
 import IUser from "../../../typings/interface/user"
@@ -20,7 +20,7 @@ export default new class LoginController extends BaseController {
             const user: IUser | null = await User.findOne({ $or: [{ email }, { username: email }] })
 
             // If find user, handle it
-
+            if (user) {
                 // If user is inactive or block
 
                 // If enabled 2 factor auth
@@ -34,8 +34,10 @@ export default new class LoginController extends BaseController {
                     // Return message and user
 
                 // otherwise, handle it
+            }
 
             // If not user is found
+            this.showErrorMessage(new ErrorMessage("", "", 404))
         } catch (error) {
             next(error)
         }
