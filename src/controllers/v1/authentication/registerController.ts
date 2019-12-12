@@ -1,6 +1,6 @@
 import { NextFunction, Response } from "express"
 import { PublicInfoMessage } from "../../../lib/messages"
-import user from "../../../models/user"
+import User from "../../../models/user"
 import { process } from "../../../typings/enum/verificationCode"
 import { IRequest } from "../../../typings/interface/express"
 import BaseController from "../baseController"
@@ -38,6 +38,6 @@ export default new class RegisterController extends BaseController {
      * @returns user
      */
     private async generateUser(data: { email: string, password: string, username: string }) {
-        return new user({ ...data }).save()
+        return new User({ ...data }).save()
     }
 }
