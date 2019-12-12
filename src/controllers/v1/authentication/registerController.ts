@@ -4,6 +4,7 @@ import user from "../../../models/user"
 import verificationCode from "../../../models/verificationCode"
 import { IRequest } from "../../../typings/interface/express"
 import BaseController from "../baseController"
+import { process } from "./../../../typings/enum/verificationCode"
 
 export default new class RegisterController extends BaseController {
     /** Sign up user
@@ -21,7 +22,11 @@ export default new class RegisterController extends BaseController {
             const newUser =  await new user({ email, username, password }).save()
 
             // Create a verification code for email verification
-            await new verificationCode({ field: "email", user: newUser.id }).save()
+            await new verificationCode({
+                expiryDate: new Date(new Date().setDate(new Date().getDate() + 1)),
+                process: process.accountActivation,
+                user: newUser.id,
+            }).save()
 
             // Return message
             return this.showSuccessMessage(res, new PublicInfoMessage("Your account was successfully registered. Please refer to your email for activation", 200))

@@ -6,6 +6,7 @@ import { status } from "../../../typings/enum/user"
 import { IRequest } from "../../../typings/interface/express"
 import IVerificationCode from "../../../typings/interface/verificationCode"
 import BaseController from "../baseController"
+import { process } from "./../../../typings/enum/verificationCode"
 
 export default new class AccountController extends BaseController {
     /** Activate account with verification code
@@ -18,21 +19,15 @@ export default new class AccountController extends BaseController {
             const { code } = req.body
 
             // Find verification code
-            const verifyCode: IVerificationCode | null = await verificationCode.findOne({ code })
+            const verifyCode: IVerificationCode | null = await verificationCode.findOne({
+                code,
+                expiryDate: { $gt: new Date() },
+                process: process.accountActivation,
+                used: false,
+            })
 
             // If find verification code, handle it
             if (verifyCode) {
-                // Expiry date
-                const date = new Date(new Date().setDate(new Date().getDate() - 1))
-
-                // If verification code is expired
-                if (verifyCode.isExpired(date)) {
-                    this.showErrorMessage(new ErrorMessage(
-                        "Expired verification code",
-                        "Verification code has expired",
-                        400))
-                }
-
                 // Find user with id
                 await user.findOneAndUpdate({ _id: verifyCode.user }, { status: status.enable })
 
@@ -45,8 +40,8 @@ export default new class AccountController extends BaseController {
                     200))
             }
 
-            // If no verification code is found
-            this.showErrorMessage(new ErrorMessage("Invalid Data", "Verification code is incorrect", 422))
+            // If no verification code is found Or verification code is expired
+            this.showErrorMessage(new ErrorMessage("Invalid Data", "Verification code is incorrect", 400))
         } catch (error) {
             next(error)
         }
