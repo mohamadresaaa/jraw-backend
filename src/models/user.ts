@@ -58,14 +58,12 @@ userSchema.post("save", function(error: any, doc: any, next: any) {
 })
 
 userSchema.pre<IUser>("save", async function(next) {
-  if (!this.isModified("password")) {
-    return next()
-  }
-
   try {
     // hashing password
-    this.password = await hash(this.password, genSaltSync(15))
-    next()
+    if (this.isModified("password")) {
+      this.password = await hash(this.password, genSaltSync(15))
+      next()
+    }
   } catch (err) {
     next(err)
   }
