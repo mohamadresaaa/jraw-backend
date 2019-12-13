@@ -1,6 +1,7 @@
 import { NextFunction, Response } from "express"
 import { ErrorMessage, PublicInfoMessage } from "../../../lib/messages"
 import User from "../../../models/user"
+import { status } from "../../../typings/enum/user"
 import { IRequest } from "../../../typings/interface/express"
 import IUser from "../../../typings/interface/user"
 import BaseController from "../baseController"
@@ -22,7 +23,14 @@ export default new class LoginController extends BaseController {
             // If find user, handle it
             if (user) {
                 // If user is inactive or block
-
+                if (user.status === status.inactive || user.status === status.block) {
+                    this.showErrorMessage(new ErrorMessage(
+                        "Account status",
+                        user.status === status.inactive ?
+                            "Your account is disabled Please activate your account" :
+                            "Your account has been blocked See support for reviewing your account",
+                        403))
+                }
                 // If enabled 2 factor auth
 
                     // send verification code
