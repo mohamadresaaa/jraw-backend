@@ -7,9 +7,9 @@ import BaseController from "../baseController"
 
 export default new class RegisterController extends BaseController {
     /** Sign up user
-     * @param {string} email
-     * @param {string} username
-     * @param {string} password
+     * @param email
+     * @param username
+     * @param password
      * @returns message
      */
     public async local(req: IRequest, res: Response, next: NextFunction) {
@@ -34,7 +34,7 @@ export default new class RegisterController extends BaseController {
     }
 
     /** Generate a new user with email, password and username
-     * @param {object} data
+     * @param data
      * @returns user
      */
     private async generateUser(data: { email: string, password: string, username: string }) {

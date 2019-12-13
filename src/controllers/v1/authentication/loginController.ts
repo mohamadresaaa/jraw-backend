@@ -8,8 +8,8 @@ import BaseController from "../baseController"
 
 export default new class LoginController extends BaseController {
     /** Sign in user
-     * @param {string} email
-     * @param {string} password
+     * @param email
+     * @param password
      * @returns message and user
      */
     async local(req: IRequest, res: Response, next: NextFunction) {

@@ -59,7 +59,7 @@ userSchema.post("save", function(error: any, doc: any, next: any) {
 
 userSchema.pre<IUser>("save", async function(next) {
   try {
-    // hashing password
+    // Hashing password
     if (this.isModified("password")) {
       this.password = await hash(this.password, genSaltSync(15))
       next()
@@ -70,7 +70,7 @@ userSchema.pre<IUser>("save", async function(next) {
 })
 
 /** Compare passwords
- * @param {string} password
+ * @param password
  * @returns boolean true/false
  */
 userSchema.methods.comparePassword = async function(password: string) {
