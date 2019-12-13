@@ -1,7 +1,8 @@
 import mongoose, { Schema } from "mongoose"
+import ISession from "src/typings/interface/session"
 
 const sessionSchema = new Schema({
-    jwtToken: {
+    token: {
         required: true,
         type: String,
         unique: true,
@@ -13,4 +14,4 @@ const sessionSchema = new Schema({
     },
 }, { timestamps: true })
 
-export default mongoose.model("session", sessionSchema)
+export default mongoose.model<ISession>("session", sessionSchema)
