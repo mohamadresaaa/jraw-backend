@@ -20,7 +20,7 @@ export default new class RegisterController extends BaseController {
             // Create user
             const newUser = await this.generateUser({ email, username, password })
 
-            // Create a verification code for email verification
+            // Create a verification code for account activation
             await this.generateVerificationCode(
                     new Date(new Date().setDate(new Date().getDate() + 1)),
                     process.accountActivation,
