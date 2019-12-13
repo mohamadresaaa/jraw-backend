@@ -1,9 +1,10 @@
 // import autoBind from "auto-bind"
 import { Response } from "express"
 import { ErrorMessage, PublicInfoMessage } from "src/lib/messages"
-import verificationCode from "./../../models/verificationCode"
+import VerificationCode from "./../../models/verificationCode"
 import { process } from "./../../typings/enum/verificationCode"
 import IUser from "./../../typings/interface/user"
+import IVerificationCode from "./../../typings/interface/verificationCode"
 
 export default abstract class BaseController {
     // constructor() {
@@ -11,7 +12,7 @@ export default abstract class BaseController {
     // }
 
     /** Show error message
-     * @param {object} error
+     * @param error
      * @returns error
      */
     protected showErrorMessage(error: ErrorMessage) {
@@ -19,27 +20,50 @@ export default abstract class BaseController {
     }
 
     /** Show success message
-     * @param {response} res
-     * @param {object} data
-     * @returns {response} res.status(200).json({ message, status, properties })
+     * @param res
+     * @param data
+     * @returns res.status(200).json({ message, status, properties })
      */
     protected showSuccessMessage(res: Response, data: PublicInfoMessage) {
         res.status(data.status).json(data)
     }
 
     /** Generate verification code
-     * @param {date} expiryDate
-     * @param {number} processAction
-     * @param {string} user
-     * @param {string} data
+     * @param expiryDate
+     * @param processAction
+     * @param user
+     * @param data
      */
-    protected async generateVerificationCode(expiryDate: Date, processAction: process, user: IUser, data?: string) {
-        return new verificationCode({
-            data,
-            expiryDate,
-            process: processAction,
-            user,
-        }).save()
+    protected async generateVerificationCode(
+        expiryDate: Date,
+        processAction: process,
+        user: IUser,
+        data ?: string): Promise<IVerificationCode> {
+            return new VerificationCode({
+                data,
+                expiryDate,
+                process: processAction,
+                user,
+            }).save()
+    }
+
+    /** Get verification code
+     * @param code
+     * @param expiryDate
+     * @param processAction
+     * @param used
+     */
+    protected async getVerificationCode(
+        code: string,
+        expiryDate: Date,
+        processAction: process,
+        used: boolean = false): Promise<IVerificationCode | null> {
+            return VerificationCode.findOne({
+                code,
+                expiryDate,
+                process: processAction,
+                used,
+            })
     }
 
 }
