@@ -1,4 +1,4 @@
-import { genSaltSync, hash } from "bcrypt"
+import { compare, genSaltSync, hash } from "bcrypt"
 import mongoose, { Schema } from "mongoose"
 import IUser from "../typings/interface/user"
 import { ErrorMessage } from "./../lib/messages"
@@ -68,5 +68,13 @@ userSchema.pre<IUser>("save", async function(next) {
     next(err)
   }
 })
+
+/** Compare passwords
+ * @param {string} password
+ * @returns boolean true/false
+ */
+userSchema.methods.comparePassword = async function(password: string) {
+  return compare(password, this.password)
+}
 
 export default mongoose.model<IUser>("User", userSchema)

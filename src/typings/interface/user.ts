@@ -11,4 +11,5 @@ export default interface IUser extends Document {
     role: role
     status: status
     username: string
+    comparePassword(password: string): boolean
 }

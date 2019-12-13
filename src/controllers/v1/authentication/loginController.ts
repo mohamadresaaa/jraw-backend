@@ -36,16 +36,17 @@ export default new class LoginController extends BaseController {
                     // send verification code
 
                 // If password is the same
-
+                if (await user.comparePassword(password)) {
                     // Generate jwt token and save to session
 
                     // Return message and user
-
+                }
                 // otherwise, handle it
+                this.showErrorMessage(new ErrorMessage("Unauthorized user", "Incorrect email or password", 401))
             }
 
             // If not user is found
-            this.showErrorMessage(new ErrorMessage("", "", 404))
+            this.showErrorMessage(new ErrorMessage("User not found", "Incorrect email or password", 404))
         } catch (error) {
             next(error)
         }
