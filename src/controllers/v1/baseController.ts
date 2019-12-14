@@ -1,4 +1,3 @@
-// import autoBind from "auto-bind"
 import { Response } from "express"
 import { ErrorMessage, PublicInfoMessage } from "src/lib/messages"
 import VerificationCode from "./../../models/verificationCode"
@@ -7,10 +6,6 @@ import IUser from "./../../typings/interface/user"
 import IVerificationCode from "./../../typings/interface/verificationCode"
 
 export default abstract class BaseController {
-    // constructor() {
-    //     autoBind(this)
-    // }
-
     /** Show error message
      * @param error
      * @returns error
