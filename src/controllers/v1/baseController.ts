@@ -49,18 +49,16 @@ export default abstract class BaseController {
 
     /** Get verification code
      * @param code
-     * @param expiryDate
      * @param processAction
      * @param used
      */
     protected async getVerificationCode(
         code: string,
-        expiryDate: Date,
         processAction: process,
         used: boolean = false): Promise<IVerificationCode | null> {
             return VerificationCode.findOne({
                 code,
-                expiryDate,
+                expiryDate: { $gt: new Date() },
                 process: processAction,
                 used,
             })

@@ -1,10 +1,8 @@
 import { NextFunction, Response } from "express"
 import { ErrorMessage, PublicInfoMessage } from "../../../lib/messages"
 import User from "../../../models/user"
-import VerificationCode from "../../../models/verificationCode"
 import { status } from "../../../typings/enum/user"
 import { IRequest } from "../../../typings/interface/express"
-import IVerificationCode from "../../../typings/interface/verificationCode"
 import BaseController from "../baseController"
 import { process } from "./../../../typings/enum/verificationCode"
 
@@ -19,12 +17,7 @@ export default new class AccountController extends BaseController {
             const { code } = req.body
 
             // Find verification code
-            const verifyCode: IVerificationCode | null = await VerificationCode.findOne({
-                code,
-                expiryDate: { $gt: new Date() },
-                process: process.accountActivation,
-                used: false,
-            })
+            const verifyCode = await this.getVerificationCode(code, process.accountActivation)
 
             // If find verification code, handle it
             if (verifyCode) {
@@ -57,12 +50,7 @@ export default new class AccountController extends BaseController {
             const { code } = req.body
 
             // Find verification code
-            const verifyCode: IVerificationCode | null = await VerificationCode.findOne({
-                code,
-                expiryDate: { $gt: new Date() },
-                process: process.accountDeactivation,
-                used: false,
-            })
+            const verifyCode = await this.getVerificationCode(code, process.accountDeactivation)
 
             // If find verification code, handle it
             if (verifyCode) {
