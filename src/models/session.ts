@@ -2,6 +2,10 @@ import mongoose, { Schema } from "mongoose"
 import ISession from "src/typings/interface/session"
 
 const sessionSchema = new Schema({
+    expiryDate: {
+        required: true,
+        type: Date,
+    },
     token: {
         required: true,
         type: String,
