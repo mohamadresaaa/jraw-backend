@@ -85,7 +85,7 @@ userSchema.methods.generateSession = async function(): Promise<string> {
   const token = jwt.sign({
     iss: "jraw",
     sub: this._id,
-  }, "config.server.publicKey" + "config.server.privateKey")
+  }, config.server.publicKey + config.server.privateKey)
 
   // Create session
 
