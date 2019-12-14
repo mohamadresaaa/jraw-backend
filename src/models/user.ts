@@ -84,7 +84,7 @@ userSchema.methods.comparePassword = async function(password: string) {
  * @param expiryDate
  * @@returns token
  */
-userSchema.methods.generateSession = async function(expiryDate: number = 30): Promise<string> {
+userSchema.methods.generateSession = async function(): Promise<string> {
   // Generate jwt token
   const token = jwt.sign({
     iss: "jraw",
@@ -93,13 +93,30 @@ userSchema.methods.generateSession = async function(expiryDate: number = 30): Pr
 
   // Create session
   await new Session({
-    expiryDate: new Date(new Date().setDate(new Date().getDate() + expiryDate)),
+    expiryDate: new Date(new Date().setDate(new Date().getDate() + 30)),
     token,
     user: this.this._id,
   }).save()
 
   // Return token
   return token
+}
+
+userSchema.methods.dataTransform = async function() {
+  return {
+    token: await this.generateSession(),
+    user: {
+      avatar: this.avatar,
+      bio: this.bio,
+      birthday: this.birthday,
+      email: this.email,
+      firstName: this.firstName,
+      fullName: `${this.firstName} ${this.lastName}`,
+      lastName: this.lastName,
+      role: this.role,
+      username: this.username,
+    },
+  }
 }
 
 export default mongoose.model<IUser>("User", userSchema)
