@@ -31,4 +31,7 @@ const verificationCodeSchema = new Schema({
     },
 })
 
+// Index fields
+verificationCodeSchema.index({ code: 1, expiryDate: -1 })
+
 export default mongoose.model<IVerificationCode>("verificationCode", verificationCodeSchema)

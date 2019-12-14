@@ -16,6 +16,6 @@ const sessionSchema = new Schema({
         required: true,
         type: mongoose.Schema.Types.ObjectId,
     },
-}, { timestamps: true })
+}, { timestamps: true, autoIndex: true })
 
 export default mongoose.model<ISession>("session", sessionSchema)

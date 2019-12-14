@@ -55,6 +55,9 @@ const userSchema = new Schema({
   },
 }, { timestamps: true })
 
+// Index fields
+userSchema.index({ email: 1, username: 1, createdAt: -1 })
+
 // Manage and prevent copy information from being imported { email, username }
 userSchema.post("save", function(error: any, doc: any, next: any) {
   if (error.name === "MongoError" && error.code === 11000) {
