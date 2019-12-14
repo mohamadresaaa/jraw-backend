@@ -14,11 +14,8 @@ export default new class RegisterController extends BaseController {
      */
     public async local(req: IRequest, res: Response, next: NextFunction) {
         try {
-            // Get email, username, password
-            const { email, username, password } = req.body
-
-            // Create user
-            const newUser = await this.generateUser({ email, username, password })
+            // Get email, username, password from req.body and create user
+            const newUser = await new User({ ...req.body }).save()
 
             // Create a verification code for account activation
             const verificationCode = await this.generateVerificationCode(
@@ -31,13 +28,5 @@ export default new class RegisterController extends BaseController {
         } catch (error) {
             next(error)
         }
-    }
-
-    /** Generate a new user with email, password and username
-     * @param data
-     * @returns user
-     */
-    private async generateUser(data: { email: string, password: string, username: string }) {
-        return new User({ ...data }).save()
     }
 }
