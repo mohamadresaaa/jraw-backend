@@ -13,8 +13,11 @@ export default new class PasswordController extends BaseController {
      */
     async forgotPassword(req: IRequest, res: Response, next: NextFunction) {
         try {
+            // Get email
+            const { email } = req.body
+
             // Get email and find user with email
-            const user: IUser | null = await User.findOne({ email: req.body.email })
+            const user: IUser | null = await User.findOne({ email })
 
             // If find user
             if (user) {
@@ -43,12 +46,15 @@ export default new class PasswordController extends BaseController {
      */
     async resetPassword(req: IRequest, res: Response, next: NextFunction) {
         try {
+            // Get code, password
+            const { code, password } = req.body
+
             // Find verification code
-            const verifyCode = await this.getVerificationCode(req.body.code, process.passwordRecovery)
+            const verifyCode = await this.getVerificationCode(code, process.passwordRecovery)
 
             if (verifyCode) {
                 // Find user with id and update password
-                await User.findOneAndUpdate({ _id: verifyCode.user }, { password: req.body.password })
+                await User.findOneAndUpdate({ _id: verifyCode.user }, { password })
 
                 // Expire verification code
                 await verifyCode.updateOne({ used: true })
