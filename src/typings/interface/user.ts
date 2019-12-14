@@ -13,5 +13,5 @@ export default interface IUser extends Document {
     username: string
     comparePassword(password: string): boolean
     generateSession(): Promise<string>
-    dataTransform(): Promise<any>
+    dataTransform(): any
 }

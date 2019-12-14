@@ -107,20 +107,17 @@ userSchema.methods.generateSession = async function(): Promise<string> {
 }
 
 /** Convert and customize user information */
-userSchema.methods.dataTransform = async function(): Promise<any> {
+userSchema.methods.dataTransform = function(): any {
   return {
-    token: await this.generateSession(),
-    user: {
-      avatar: this.avatar,
-      bio: this.bio,
-      birthday: this.birthday ? this.birthday.toISOString().slice(0, 10) : this.birthday,
-      email: this.email,
-      firstName: this.firstName,
-      fullName: `${this.firstName} ${this.lastName}`,
-      lastName: this.lastName,
-      role: this.role,
-      username: this.username,
-    },
+    avatar: this.avatar,
+    bio: this.bio,
+    birthday: this.birthday ? this.birthday.toISOString().slice(0, 10) : this.birthday,
+    email: this.email,
+    firstName: this.firstName,
+    fullName: `${this.firstName} ${this.lastName}`,
+    lastName: this.lastName,
+    role: this.role,
+    username: this.username,
   }
 }
 

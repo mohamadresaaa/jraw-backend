@@ -39,7 +39,8 @@ export default new class LoginController extends BaseController {
                 if (await user.comparePassword(password)) {
                     // Generate jwt token and save to session, return message and user
                     return this.showSuccessMessage(res, new PublicInfoMessage("Sign in successfully completed", 200, {
-                        user: await user.dataTransform(),
+                        token: await user.generateSession(),
+                        ...user.dataTransform(),
                     }))
                 }
 
