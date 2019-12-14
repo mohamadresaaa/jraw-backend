@@ -1,6 +1,8 @@
 import { compare, genSaltSync, hash } from "bcrypt"
+import jwt from "jsonwebtoken"
 import mongoose, { Schema } from "mongoose"
 import IUser from "../typings/interface/user"
+import { config } from "./../config"
 import { ErrorMessage } from "./../lib/messages"
 
 const userSchema = new Schema({
@@ -75,6 +77,20 @@ userSchema.pre<IUser>("save", async function(next) {
  */
 userSchema.methods.comparePassword = async function(password: string) {
   return compare(password, this.password)
+}
+
+/** Create session if user login is successful and return jwt token */
+userSchema.methods.generateSession = async function(): Promise<string> {
+  // Generate jwt token
+  const token = jwt.sign({
+    iss: "jraw",
+    sub: this._id,
+  }, "config.server.publicKey" + "config.server.privateKey")
+
+  // Create session
+
+  // Return token
+  return token
 }
 
 export default mongoose.model<IUser>("User", userSchema)
