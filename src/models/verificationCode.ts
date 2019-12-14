@@ -9,9 +9,6 @@ const verificationCodeSchema = new Schema({
         type: String,
         unique: true,
     },
-    data: {
-        type: String,
-    },
     expiryDate: {
         required: true,
         type: Date,

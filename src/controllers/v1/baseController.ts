@@ -32,10 +32,8 @@ export default abstract class BaseController {
     protected async generateVerificationCode(
         expiryDate: Date,
         processAction: process,
-        user: IUser,
-        data ?: string): Promise<IVerificationCode> {
+        user: IUser): Promise<IVerificationCode> {
             return new VerificationCode({
-                data,
                 expiryDate,
                 process: processAction,
                 user,
