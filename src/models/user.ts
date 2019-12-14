@@ -4,6 +4,7 @@ import mongoose, { Schema } from "mongoose"
 import IUser from "../typings/interface/user"
 import { config } from "./../config"
 import { ErrorMessage } from "./../lib/messages"
+import Session from "./session"
 
 const userSchema = new Schema({
   avatar: {
@@ -79,8 +80,11 @@ userSchema.methods.comparePassword = async function(password: string) {
   return compare(password, this.password)
 }
 
-/** Create session if user login is successful and return jwt token */
-userSchema.methods.generateSession = async function(): Promise<string> {
+/** Create session if user login is successful and return jwt token
+ * @param expiryDate
+ * @@returns token
+ */
+userSchema.methods.generateSession = async function(expiryDate: number = 30): Promise<string> {
   // Generate jwt token
   const token = jwt.sign({
     iss: "jraw",
@@ -88,6 +92,11 @@ userSchema.methods.generateSession = async function(): Promise<string> {
   }, config.server.publicKey + config.server.privateKey)
 
   // Create session
+  await new Session({
+    expiryDate: new Date(new Date().setDate(new Date().getDate() + expiryDate)),
+    token,
+    user: this.this._id,
+  }).save()
 
   // Return token
   return token
