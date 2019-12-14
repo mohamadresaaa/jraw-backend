@@ -86,7 +86,7 @@ userSchema.methods.comparePassword = async function(password: string) {
 
 /** Create session if user login is successful and return jwt token
  * @param expiryDate
- * @@returns token
+ * @returns token
  */
 userSchema.methods.generateSession = async function(): Promise<string> {
   // Generate jwt token
@@ -106,13 +106,14 @@ userSchema.methods.generateSession = async function(): Promise<string> {
   return token
 }
 
-userSchema.methods.dataTransform = async function() {
+/** Convert and customize user information */
+userSchema.methods.dataTransform = async function(): Promise<any> {
   return {
     token: await this.generateSession(),
     user: {
       avatar: this.avatar,
       bio: this.bio,
-      birthday: this.birthday,
+      birthday: this.birthday ? this.birthday.toISOString().slice(0, 10) : this.birthday,
       email: this.email,
       firstName: this.firstName,
       fullName: `${this.firstName} ${this.lastName}`,
