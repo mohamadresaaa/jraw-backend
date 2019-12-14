@@ -92,14 +92,14 @@ userSchema.methods.generateSession = async function(): Promise<string> {
   // Generate jwt token
   const token = jwt.sign({
     iss: "jraw",
-    sub: this._id,
+    sub: this.id,
   }, config.server.publicKey + config.server.privateKey)
 
   // Create session
   await new Session({
     expiryDate: new Date(new Date().setDate(new Date().getDate() + 30)),
     token,
-    user: this.this._id,
+    user: this.id,
   }).save()
 
   // Return token
