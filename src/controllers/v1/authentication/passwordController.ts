@@ -54,7 +54,8 @@ export default new class PasswordController extends BaseController {
 
             if (verifyCode) {
                 // Find user with id and update password
-                await User.findOneAndUpdate({ _id: verifyCode.user }, { password })
+                const user = await User.findById(verifyCode.user)
+                if (user) { await user.set({ password }).save() }
 
                 // Expire verification code
                 await verifyCode.updateOne({ used: true })
