@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "nodemon -e ts -w ./ -x npm run start",
     "start": "tsc && node dist",
-    "test": "jest --watch --passWithNoTests",
     "tslint": "tslint --fix -p . -c tslint.json"
   },
   "repository": {
