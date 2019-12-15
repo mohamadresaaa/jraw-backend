@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon -e ts -w ./ -x npm run start",
     "start": "tsc && node dist",
-    "test": "jest --passWithNoTests",
+    "test": "jest --watch --passWithNoTests",
     "tslint": "tslint --fix -p . -c tslint.json"
   },
   "repository": {
@@ -32,16 +32,12 @@
     "@types/express": "^4.17.2",
     "@types/hapi__joi": "^16.0.4",
     "@types/helmet": "0.0.45",
-    "@types/jest": "^24.0.23",
     "@types/jsonwebtoken": "^8.3.5",
     "@types/mongoose": "^5.5.32",
     "@types/morgan": "^1.7.37",
     "@types/node": "^12.12.14",
     "@types/uuid": "^3.4.6",
-    "jest": "^24.9.0",
     "nodemon": "^2.0.1",
-    "supertest": "^4.0.2",
-    "ts-jest": "^24.2.0",
     "ts-node": "^8.5.4",
     "tslint": "^5.20.1",
     "typescript": "^3.7.3"
