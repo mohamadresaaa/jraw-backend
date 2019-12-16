@@ -1,17 +1,19 @@
 import { Response } from "express"
-import { ErrorMessage, PublicInfoMessage } from "src/lib/messages"
+import { ErrorMessage, PublicErrorMessage, PublicInfoMessage } from "./../../lib/messages"
 import VerificationCode from "./../../models/verificationCode"
-import { process } from "./../../typings/enum/verificationCode"
+import { EAction } from "./../../typings/enum/verificationCode"
 import IUser from "./../../typings/interface/user"
 import IVerificationCode from "./../../typings/interface/verificationCode"
 
 export default abstract class BaseController {
     /** Show error message
-     * @param error
+     * @param name
+     * @param message
+     * @param status
      * @returns error
      */
-    protected showErrorMessage(error: ErrorMessage) {
-        throw error
+    protected errorMessage({ name, message, status }: PublicErrorMessage) {
+        throw new ErrorMessage(name, message, status)
     }
 
     /** Show success message
@@ -19,8 +21,8 @@ export default abstract class BaseController {
      * @param data
      * @returns res.status(200).json({ message, status, properties })
      */
-    protected showSuccessMessage(res: Response, data: PublicInfoMessage) {
-        res.status(data.status).json(data)
+    protected infoMessage(res: Response, { message, properties, status }: PublicInfoMessage) {
+        res.status(status).json(new PublicInfoMessage(message, status, properties))
     }
 
     /** Generate verification code
@@ -29,32 +31,16 @@ export default abstract class BaseController {
      * @param user
      * @param data
      */
-    protected async generateVerificationCode(
-        expiryDate: Date,
-        processAction: process,
-        user: IUser): Promise<IVerificationCode> {
-            return new VerificationCode({
-                expiryDate,
-                process: processAction,
-                user,
-            }).save()
+    protected async setVerificationCode(expiryDate: Date, action: EAction, user: IUser): Promise<IVerificationCode> {
+        return new VerificationCode({ action, expiryDate, user }).save()
     }
 
     /** Get verification code
      * @param code
-     * @param processAction
-     * @param used
+     * @param action
      */
-    protected async getVerificationCode(
-        code: string,
-        processAction: process,
-        used: boolean = false): Promise<IVerificationCode | null> {
-            return VerificationCode.findOne({
-                code,
-                expiryDate: { $gt: new Date() },
-                process: processAction,
-                used,
-            })
+    protected async getVerificationCode(action: EAction, code: string): Promise<IVerificationCode | null> {
+        return VerificationCode.findOne({ action, code, expiryDate: { $gt: new Date() }, used: false })
     }
 
 }

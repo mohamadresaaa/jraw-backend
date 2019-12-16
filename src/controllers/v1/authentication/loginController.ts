@@ -1,10 +1,10 @@
 import { NextFunction, Response } from "express"
-import { ErrorMessage, PublicInfoMessage } from "../../../lib/messages"
 import User from "../../../models/user"
-import { status } from "../../../typings/enum/user"
+import { EStatus } from "../../../typings/enum/user"
 import { IRequest } from "../../../typings/interface/express"
 import IUser from "../../../typings/interface/user"
 import BaseController from "../baseController"
+import { ErrorMessage } from "./../../../lib/messages"
 
 export default new class LoginController extends BaseController {
     /** Sign in user
@@ -23,33 +23,40 @@ export default new class LoginController extends BaseController {
             // If find user, handle it
             if (user) {
                 // If user is inactive or block
-                if (user.status === status.inactive || user.status === status.block) {
-                    this.showErrorMessage(new ErrorMessage(
-                        "Account status",
-                        user.status === status.inactive ?
+                if (user.status === EStatus.inactive || user.status === EStatus.block) {
+                    this.errorMessage({
+                        message: user.status === EStatus.inactive ?
                             "Your account is disabled Please activate your account" :
                             "Your account has been blocked See support for reviewing your account",
-                        403))
+                        name: "Account status",
+                        status: 403,
+                    })
                 }
                 // If enabled 2 factor auth
 
-                    // send verification code
+                // send verification code
 
                 // If password is the same
                 if (await user.comparePassword(password)) {
                     // Generate jwt token and save to session, return message and user
-                    return this.showSuccessMessage(res, new PublicInfoMessage("Sign in successfully completed", 200, {
-                        token: await user.generateSession(),
-                        ...user.dataTransform(),
-                    }))
+                    return this.infoMessage(res, {
+                        message: "Sign in successfully completed",
+                        properties: { token: await user.generateSession(), ...user.dataTransform() },
+                        status: 200,
+                    })
                 }
 
                 // otherwise, handle it
-                this.showErrorMessage(new ErrorMessage("Unauthorized user", "Incorrect email or password", 401))
+                this.errorMessage({
+                    message: "Incorrect email or password",
+                    name: "Unauthorized user",
+                    status: 401,
+                })
             }
 
             // If not user is found
-            this.showErrorMessage(new ErrorMessage("User not found", "Incorrect email or password", 404))
+            this.errorMessage(ErrorMessage.errNotFound("User",
+                "Incorrect email or password"))
         } catch (error) {
             next(error)
         }

@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express"
-import { ErrorMessage, PublicInfoMessage } from "../../../lib/messages"
+import { ErrorMessage } from "../../../lib/messages"
 import User from "../../../models/user"
-import { process } from "../../../typings/enum/verificationCode"
+import { EAction } from "../../../typings/enum/verificationCode"
 import { IRequest } from "../../../typings/interface/express"
 import IUser from "../../../typings/interface/user"
 import BaseController from "../baseController"
@@ -22,18 +22,19 @@ export default new class PasswordController extends BaseController {
             // If find user
             if (user) {
                 // Create a verification code for password recovery
-                const verificationCode = await this.generateVerificationCode(
+                const verificationCode = await this.setVerificationCode(
                     new Date(new Date().setMinutes(new Date().getMinutes() + 10)),
-                    process.passwordRecovery,
+                    EAction.passwordRecovery,
                     user.id)
 
                 // Send email
             }
 
             // Return message
-            return this.showSuccessMessage(res, new PublicInfoMessage(
-                "Password recovery link was sent to your email",
-                200))
+            return this.infoMessage(res, {
+                message: "Password recovery link was sent to your email",
+                status: 200,
+            })
         } catch (error) {
             next(error)
         }
@@ -50,24 +51,28 @@ export default new class PasswordController extends BaseController {
             const { code, password } = req.body
 
             // Find verification code
-            const verifyCode = await this.getVerificationCode(code, process.passwordRecovery)
+            const verifyCode = await this.getVerificationCode(EAction.passwordRecovery, code)
 
             if (verifyCode) {
                 // Find user with id and update password
                 const user = await User.findById(verifyCode.user)
-                if (user) { await user.set({ password }).save() }
+                if (user) {
+                    await user.set({ password }).save()
+                }
 
                 // Expire verification code
                 await verifyCode.updateOne({ used: true })
 
                 // Return message
-                return this.showSuccessMessage(res, new PublicInfoMessage(
-                    "Your password has been successfully retrieved",
-                    200))
+                return this.infoMessage(res, {
+                    message: "Your password has been successfully retrieved",
+                    status: 200,
+                })
             }
 
             // If not verification code is found Or verification code is expired
-            this.showErrorMessage(new ErrorMessage("Invalid Data", "Verification code is incorrect", 400))
+            this.errorMessage(ErrorMessage.errNotFound("Verification code",
+                "Verification code is incorrect"))
         } catch (error) {
             next(error)
         }

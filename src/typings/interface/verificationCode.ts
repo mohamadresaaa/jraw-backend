@@ -1,11 +1,11 @@
 import { Document } from "mongoose"
-import { process } from "./../enum/verificationCode"
+import { EAction } from "./../enum/verificationCode"
 import IUser from "./user"
 
 export default interface IVerificationCode extends Document {
     code: string
     expiryDate: Date,
-    process: process
+    action: EAction
     used: boolean
     user: IUser
 }

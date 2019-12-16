@@ -25,14 +25,19 @@ export default class ApplicationCore {
         this.setupRoutes()
     }
 
-    /** Setup server with express */
+    /** Setup server with express
+     * @package http
+     * @package express
+     */
     private setupExpress() {
         const server = createServer(this.app)
         server.listen(config.server.port,
             () => logger(`Server running on port ${config.server.port}`))
     }
 
-    /** Setup mongodb and set config */
+    /** Setup mongodb and set config
+     * @package mongoose
+     */
     private setupMongodb() {
         mongoose.Promise = global.Promise
         mongoose.connect(config.database.mongodb.url, {
@@ -43,6 +48,7 @@ export default class ApplicationCore {
     /** Setup packages
      * @package helmet
      * @package body-parser
+     * @package morgan
      */
     private configuration() {
         this.app.use(helmet())

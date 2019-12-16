@@ -21,7 +21,7 @@ export const apiErrorHandler: ErrorRequestHandler = (error: any, req: IRequest, 
 
 export const apiError404 = (req: IRequest, res: Response, next: NextFunction) => {
   try {
-    throw new PublicErrorMessage(ErrorMessage.errNotFound("route"))
+    throw new PublicErrorMessage(ErrorMessage.errNotFound("Route"))
   } catch (error) {
     next(error)
   }

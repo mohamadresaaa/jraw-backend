@@ -1,10 +1,10 @@
 import { NextFunction, Response } from "express"
-import { ErrorMessage, PublicInfoMessage } from "../../../lib/messages"
+import { ErrorMessage } from "src/lib/messages"
 import User from "../../../models/user"
-import { status } from "../../../typings/enum/user"
+import { EStatus } from "../../../typings/enum/user"
 import { IRequest } from "../../../typings/interface/express"
 import BaseController from "../baseController"
-import { process } from "./../../../typings/enum/verificationCode"
+import { EAction } from "./../../../typings/enum/verificationCode"
 
 export default new class AccountController extends BaseController {
     /** Activate account with verification code
@@ -17,24 +17,26 @@ export default new class AccountController extends BaseController {
             const { code } = req.body
 
             // Find verification code
-            const verifyCode = await this.getVerificationCode(code, process.accountActivation)
+            const verifyCode = await this.getVerificationCode(EAction.accountActivation, code)
 
             // If find verification code, handle it
             if (verifyCode) {
                 // Find user with id
-                await User.findOneAndUpdate({ _id: verifyCode.user }, { status: status.active })
+                await User.findOneAndUpdate({ _id: verifyCode.user }, { status: EStatus.active })
 
                 // Expire verification code
                 await verifyCode.updateOne({ used: true })
 
                 // Return message
-                return this.showSuccessMessage(res, new PublicInfoMessage(
-                    "Your account has been successfully activated",
-                    200))
+                return this.infoMessage(res, {
+                    message: "Your account has been successfully activated",
+                    status: 200,
+                })
             }
 
             // If not verification code is found Or verification code is expired
-            this.showErrorMessage(new ErrorMessage("Invalid Data", "Verification code is incorrect", 400))
+            this.errorMessage(ErrorMessage.errNotFound("Verification code",
+                "Verification code is incorrect"))
         } catch (error) {
             next(error)
         }
@@ -50,24 +52,26 @@ export default new class AccountController extends BaseController {
             const { code } = req.body
 
             // Find verification code
-            const verifyCode = await this.getVerificationCode(code, process.accountDeactivation)
+            const verifyCode = await this.getVerificationCode(EAction.accountDeactivation, code)
 
             // If find verification code, handle it
             if (verifyCode) {
                 // Find user with id
-                await User.findOneAndUpdate({ _id: verifyCode.user }, { status: status.inactive })
+                await User.findOneAndUpdate({ _id: verifyCode.user }, { status: EStatus.inactive })
 
                 // Expire verification code
                 await verifyCode.updateOne({ used: true })
 
                 // Return message
-                return this.showSuccessMessage(res, new PublicInfoMessage(
-                    "Your account has been successfully deactivated",
-                    200))
+                return this.infoMessage(res, {
+                    message: "Your account has been successfully deactivated",
+                    status: 200,
+                })
             }
 
             // If not verification code is found Or verification code is expired
-            this.showErrorMessage(new ErrorMessage("Invalid Data", "Verification code is incorrect", 400))
+            this.errorMessage(ErrorMessage.errNotFound("Verification code",
+                "Verification code is incorrect"))
         } catch (error) {
             next(error)
         }

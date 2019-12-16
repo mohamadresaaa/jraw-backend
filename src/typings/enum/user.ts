@@ -1,9 +1,11 @@
-export enum role {
+/** User role */
+export enum ERole {
     superAdmin,
     user,
 }
 
-export enum status {
+/** User status */
+export enum EStatus {
     active,
     block,
     inactive,

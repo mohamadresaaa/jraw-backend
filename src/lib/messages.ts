@@ -14,17 +14,15 @@ export class ErrorMessage extends Error {
         return new PublicErrorMessage(this)
     }
 
-    static errNotFound(resource: string, properties?: any, internalProperties?: any) {
-        return new ErrorMessage(
-            `${resource} not found`,
-            `The specified ${resource} does not exist`,
+    static errNotFound(resource: string, message?: string, properties?: any, internalProperties?: any) {
+        return new ErrorMessage(`${resource} not found`,
+            message ? message : `The specified ${resource.toLowerCase()} does not exist`,
             404,
             properties,
             internalProperties)
     }
     static errServerError(properties?: any, internalProperties?: any) {
-        return new ErrorMessage(
-            "Internal Server Error",
+        return new ErrorMessage("Internal Server Error",
             "Request could not be carried out.",
             500,
             properties,
@@ -37,11 +35,12 @@ export class PublicErrorMessage {
     public message: string
     public status: number
     public properties?: any
-    constructor(err: ErrorMessage) {
-        this.name = err.name
-        this.message = err.message
-        this.status = err.status
-        this.properties = err.properties
+
+    constructor(error: ErrorMessage) {
+        this.name = error.name
+        this.message = error.message
+        this.status = error.status
+        this.properties = error.properties
     }
 }
 
@@ -49,8 +48,7 @@ export class PublicInfoMessage {
     constructor(
         public message: string,
         public status: number,
-        public properties?: any,
-    ) { }
+        public properties?: any) { }
 
     static infoCreated(resource: string, properties?: any) {
         return new PublicInfoMessage(`${resource} was Created`, 201, properties)

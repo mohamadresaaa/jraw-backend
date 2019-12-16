@@ -5,4 +5,5 @@ import chalk from "chalk"
  * @param color
  * @package chalk
  */
-export default (message: string, color: string = "cyan") => (console.log(chalk.keyword(color).bold(message)))
+export default (message: string,
+                color: string = "cyan") => (console.log(chalk.keyword(color).bold(message)))
