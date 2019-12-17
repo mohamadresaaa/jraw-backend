@@ -1,5 +1,5 @@
 import { Document } from "mongoose"
-import { role, status } from "./../enum/user"
+import { ERole, EStatus } from "./../enum/user"
 
 export default interface IUser extends Document {
     avatar?: string
@@ -8,8 +8,8 @@ export default interface IUser extends Document {
     email: string
     fullName?: string
     password: string
-    role: role
-    status: status
+    role: ERole
+    status: EStatus
     username: string
     comparePassword(password: string): boolean
     generateSession(): Promise<string>

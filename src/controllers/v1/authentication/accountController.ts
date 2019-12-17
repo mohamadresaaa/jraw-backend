@@ -1,5 +1,5 @@
 import { NextFunction, Response } from "express"
-import { ErrorMessage } from "src/lib/messages"
+import { ErrorMessage } from "../../../lib/messages"
 import User from "../../../models/user"
 import { EStatus } from "../../../typings/enum/user"
 import { IRequest } from "../../../typings/interface/express"
