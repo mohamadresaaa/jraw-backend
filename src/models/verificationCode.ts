@@ -3,6 +3,10 @@ import { v4 } from "uuid"
 import IVerificationCode from "../typings/interface/verificationCode"
 
 const verificationCodeSchema = new Schema({
+    action: {
+        required: true,
+        type: Number,
+    },
     code: {
         default: v4(),
         required: true,
@@ -12,10 +16,6 @@ const verificationCodeSchema = new Schema({
     expiryDate: {
         required: true,
         type: Date,
-    },
-    process: {
-        required: true,
-        type: Number,
     },
     used: {
         default: false,
