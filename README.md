@@ -23,4 +23,4 @@ npm run dev
 ## Feedback
 
 - [File an issue](https://github.com/mohamadresaaa/jraw-backend/issues)
-- Follow [@mohamadresaaa](https://instagram.com/code)
+- Follow [@mohamadresaaa](https://instagram.com/mohamadresaaa)
