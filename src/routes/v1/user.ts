@@ -12,7 +12,7 @@ const router = express.Router()
 // routes
 router.get("/",
     accountController.currentUser.bind(accountController))
-router.post("/account/deactivate",
+router.post("/deactivateAccount",
     validator(checkCode),
     accountController.deactivation.bind(accountController))
 

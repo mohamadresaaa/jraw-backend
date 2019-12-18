@@ -14,7 +14,7 @@ const router = express.Router()
 router.post("/register",
             validator(register),
             registerController.handle.bind(registerController))
-router.post("/accountActivation",
+router.post("/activateAccount",
             validator(checkCode),
             accountController.activation.bind(accountController))
 router.post("/login",
