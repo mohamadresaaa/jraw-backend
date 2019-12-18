@@ -13,7 +13,7 @@ const router = express.Router()
 // routes
 router.post("/register",
             validator(register),
-            registerController.local.bind(registerController))
+            registerController.handle.bind(registerController))
 router.post("/accountActivation",
             validator(accountActivation),
             accountController.activation.bind(accountController))

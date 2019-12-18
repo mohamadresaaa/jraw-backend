@@ -11,7 +11,7 @@ export default new class AccountController extends BaseController {
      * @param code
      * @returns message
      */
-    async activation(req: IRequest, res: Response, next: NextFunction) {
+    public async activation(req: IRequest, res: Response, next: NextFunction) {
         try {
             // Get code
             const { code } = req.body
@@ -42,11 +42,20 @@ export default new class AccountController extends BaseController {
         }
     }
 
-    /** deactivate account with verification code
+    /** Get current user information */
+    public async currentUser(req: IRequest, res: Response, next: NextFunction) {
+        try {
+            return res.json(req.user?.dataTransform())
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    /** Deactivate account with verification code
      * @param code
      * @returns message
      */
-    async deactivation(req: IRequest, res: Response, next: NextFunction) {
+    public async deactivation(req: IRequest, res: Response, next: NextFunction) {
         try {
             // Get code
             const { code } = req.body

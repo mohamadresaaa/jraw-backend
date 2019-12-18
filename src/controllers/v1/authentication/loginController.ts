@@ -12,7 +12,7 @@ export default new class LoginController extends BaseController {
      * @param password
      * @returns message and user
      */
-    async local(req: IRequest, res: Response, next: NextFunction) {
+    public async local(req: IRequest, res: Response, next: NextFunction) {
         try {
             // Get [email or username], password
             const { email, password } = req.body

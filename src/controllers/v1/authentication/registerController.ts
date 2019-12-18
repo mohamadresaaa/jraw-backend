@@ -11,7 +11,7 @@ export default new class RegisterController extends BaseController {
      * @param password
      * @returns message
      */
-    public async local(req: IRequest, res: Response, next: NextFunction) {
+    public async handle(req: IRequest, res: Response, next: NextFunction) {
         try {
             // Get email, username, password from req.body and create user
             const newUser = await new User({ ...req.body }).save()
