@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express"
 import jwt from "jsonwebtoken"
 import Session from "../models/session"
-import User from "../models/user"
+import { EStatus } from "../typings/enum/user"
 import { IRequest } from "../typings/interface/express"
 import ISession from "../typings/interface/session"
 import { config } from "./../config"
@@ -20,45 +20,34 @@ export default async (req: IRequest, res: Response, next: NextFunction) => {
                 config.server.publicKey + config.server.privateKey,
                 { issuer: "jraw" })
 
-            /** Find session in redis, if exists key return next
-             * if not find session in mongodb, if exists create key and return next
-             * otherwise next error
-             */
-            config.database.redis.get(`session-${token}`, async (err, key) => {
-                try {
-                    if (key) {
-                        // set value of key to req.user and return next
-                        req.user = JSON.parse(key)
-                        return next()
-                    } else {
-                        // Find session in mongodb with jwt token and user.id and populate user collection
-                        const session: ISession | null  = await Session.findOne({ expiryDate: { $gt: new Date()},
-                            token,
-                            user: (payload as any).sub }).populate("user")
+            // Find session in mongodb with jwt token and user.id and populate user collection
+            const session: ISession | null = await Session.findOne({
+                expiryDate: { $gt: new Date() },
+                token,
+                user: (payload as any).sub,
+            }).populate("user")
 
-                        // If exists, handle it
-                        if (session) {
-                            // Create auth key in redis
-                            config.database.redis.set(`session-${token}`,
-                                JSON.stringify(session.user),
-                                "EX",
-                                session.expiryDate.getTime())
-
-                            // Set user to req.user and return next
-                            req.user = session.user
-                            return next()
-                        } else {
-                            throw new ErrorMessage("Unauthorized", "Authentication failed", 401)
-                        }
-                    }
-                } catch (error) {
-                    next(error)
+            // If exists, handle it
+            if (session) {
+                if (session.user.status !== EStatus.block && session.user.status !== EStatus.inactive) {
+                    // Set user to req.user and return next
+                    req.user = session.user
+                    return next()
+                } else {
+                    throw new ErrorMessage("Account status",
+                        session.user.status === EStatus.inactive ?
+                            "Your account is disabled Please activate your account" :
+                            "Your account has been blocked See support for reviewing your account",
+                        403)
                 }
-            })
+            } else {
+                throw new ErrorMessage("Unauthorized", "Your session has expired", 401)
+            }
         } else {
             throw new ErrorMessage("Unauthorized", "Authentication failed", 401)
         }
     } catch (error) {
+        error = new ErrorMessage(error.name, "Authentication failed", 401)
         next(error)
     }
 }

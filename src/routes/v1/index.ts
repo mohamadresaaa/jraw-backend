@@ -8,8 +8,7 @@ const router = express.Router()
 // routes
 router.use("/auth", authenticationRoutes)
 router.get("/user", auth, (req: IRequest, res, next) => {
-    console.log(req.user)
-    res.json(req.user)
+    res.json(req.user?.dataTransform())
 })
 
 module.exports = router
