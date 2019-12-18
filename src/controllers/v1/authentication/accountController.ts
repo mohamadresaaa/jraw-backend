@@ -61,12 +61,12 @@ export default new class AccountController extends BaseController {
             const { code } = req.body
 
             // Find verification code
-            const verifyCode = await this.getVerificationCode(EAction.accountDeactivation, code)
+            const verifyCode = await this.getVerificationCode(EAction.accountDeactivation, code, req.user?.id)
 
             // If find verification code, handle it
             if (verifyCode) {
-                // Find user with id
-                await User.findOneAndUpdate({ _id: verifyCode.user }, { status: EStatus.inactive })
+                // Update user status
+                await req.user?.update({ status: EStatus.inactive })
 
                 // Expire verification code
                 await verifyCode.updateOne({ used: true })

@@ -39,8 +39,8 @@ export default abstract class BaseController {
      * @param code
      * @param action
      */
-    protected async getVerificationCode(action: EAction, code: string): Promise<IVerificationCode | null> {
-        return VerificationCode.findOne({ action, code, expiryDate: { $gt: new Date() }, used: false })
+    protected async getVerificationCode(action: EAction, code: string, user?: IUser): Promise<IVerificationCode|null> {
+        return VerificationCode.findOne({ action, code, expiryDate: { $gt: new Date() }, used: false, user })
     }
 
 }
