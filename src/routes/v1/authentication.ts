@@ -1,5 +1,5 @@
 import express from "express"
-import { accountActivation, forgotPassword, login, register, resetPassword } from "../../utilities/validatorSchema"
+import { checkCode, forgotPassword, login, register, resetPassword } from "../../utilities/validatorSchema"
 import { validator } from "./../../middleware/validator"
 
 // controllers
@@ -15,11 +15,8 @@ router.post("/register",
             validator(register),
             registerController.handle.bind(registerController))
 router.post("/accountActivation",
-            validator(accountActivation),
+            validator(checkCode),
             accountController.activation.bind(accountController))
-router.post("/accountDeactivation",
-            validator(accountActivation),
-            accountController.deactivation.bind(accountController))
 router.post("/login",
             validator(login),
             loginController.local.bind(loginController))

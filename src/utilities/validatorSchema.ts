@@ -1,6 +1,6 @@
 import joi from "@hapi/joi"
 
-export const accountActivation = joi.object().keys({
+export const checkCode = joi.object().keys({
   code: joi.string().required(),
 })
 
