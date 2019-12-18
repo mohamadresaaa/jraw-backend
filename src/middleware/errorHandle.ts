@@ -11,7 +11,7 @@ export const apiErrorHandler: ErrorRequestHandler = (error: any, req: IRequest, 
   switch (process.env.MODE || "development") {
     case "development":
       return res.status(error.status ? error.status : 500).json({
-        message: error.message,
+        ...error,
         stack: error.stack,
       })
     case "production":
