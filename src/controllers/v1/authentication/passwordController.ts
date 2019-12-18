@@ -11,7 +11,7 @@ export default new class PasswordController extends BaseController {
      * @param email
      * @returns message
      */
-    public async forgotPassword(req: IRequest, res: Response, next: NextFunction) {
+    public async forgot(req: IRequest, res: Response, next: NextFunction) {
         try {
             // Get email
             const { email } = req.body
@@ -45,7 +45,7 @@ export default new class PasswordController extends BaseController {
      * @param password
      * @returns message
      */
-    public async resetPassword(req: IRequest, res: Response, next: NextFunction) {
+    public async reset(req: IRequest, res: Response, next: NextFunction) {
         try {
             // Get code, password
             const { code, password } = req.body

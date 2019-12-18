@@ -22,9 +22,9 @@ router.post("/login",
             loginController.local.bind(loginController))
 router.post("/forgotPassword",
             validator(forgotPassword),
-            passwordController.forgotPassword.bind(passwordController))
+            passwordController.forgot.bind(passwordController))
 router.post("/resetPassword",
             validator(resetPassword),
-            passwordController.resetPassword.bind(passwordController))
+            passwordController.reset.bind(passwordController))
 
 export default router
