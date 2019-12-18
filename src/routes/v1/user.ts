@@ -4,7 +4,8 @@ import express from "express"
 import accountController from "../../controllers/v1/authentication/accountController"
 
 // middleware
-import { checkCode } from "../../utilities/validatorSchema"
+import passwordController from "../../controllers/v1/authentication/passwordController"
+import { changePassword, checkCode } from "../../utilities/validatorSchema"
 import { validator } from "./../../middleware/validator"
 
 const router = express.Router()
@@ -12,8 +13,13 @@ const router = express.Router()
 // routes
 router.get("/",
     accountController.currentUser.bind(accountController))
+
 router.post("/deactivateAccount",
     validator(checkCode),
     accountController.deactivation.bind(accountController))
+
+router.post("/changePassword",
+    validator(changePassword),
+    passwordController.change.bind(passwordController))
 
 export default router

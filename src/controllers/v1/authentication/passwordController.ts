@@ -77,4 +77,30 @@ export default new class PasswordController extends BaseController {
             next(error)
         }
     }
+
+    /** Change user password
+     * @param oldPassword
+     * @param newPassword
+     * @returns message
+     */
+    public async change(req: IRequest, res: Response, next: NextFunction) {
+        try {
+            // Get oldPassword and newPassword
+            const { oldPassword, newPassword } = req.body
+
+            // If password is the same
+            if (req.user?.comparePassword(oldPassword)) {
+                await req.user.set({ password: newPassword }).save()
+            }
+
+            // Otherwise
+            this.errorMessage({
+                message: "Old password is incorrect",
+                name: "Invalid Data",
+                status: 422,
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
 }
