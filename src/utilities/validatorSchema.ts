@@ -24,3 +24,9 @@ export const resetPassword = joi.object().keys({
   password: joi.string().min(8).required(),
   passwordConfirmation: joi.string().valid(joi.ref("password")).messages({"any.only": "passwordConfirmation must match password"}),
 })
+
+export const changePassword = joi.object().keys({
+  newPassword: joi.string().min(8).required(),
+  oldPassword: joi.string().required(),
+  passwordConfirmation: joi.string().valid(joi.ref("newPassword")).messages({"any.only": "passwordConfirmation must match new password"}),
+})
