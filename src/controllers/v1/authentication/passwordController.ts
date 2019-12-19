@@ -89,7 +89,7 @@ export default new class PasswordController extends BaseController {
      * @param newPassword
      * @returns message
      */
-    public async change(req: IRequest, res: Response, next: NextFunction) {
+    public async update(req: IRequest, res: Response, next: NextFunction) {
         try {
             // Get oldPassword and newPassword
             const { oldPassword, newPassword } = req.body

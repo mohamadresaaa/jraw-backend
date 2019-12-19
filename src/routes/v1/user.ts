@@ -20,7 +20,7 @@ router.post("/deactivateAccount",
 
 router.post("/changePassword",
     validator(changePassword),
-    passwordController.change.bind(passwordController))
+    passwordController.update.bind(passwordController))
 
 router.post("/changeUsername",
     validator(checkUsername),
