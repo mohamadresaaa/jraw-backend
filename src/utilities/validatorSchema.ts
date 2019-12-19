@@ -4,6 +4,10 @@ export const checkCode = joi.object().keys({
   code: joi.string().required(),
 })
 
+export const checkUsername = joi.object().keys({
+  username: joi.string().required(),
+})
+
 export const forgotPassword = joi.object().keys({
   email: joi.string().email({ minDomainSegments: 2 }).required(),
 })

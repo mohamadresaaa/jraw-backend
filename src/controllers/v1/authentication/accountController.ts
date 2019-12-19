@@ -42,6 +42,25 @@ export default new class AccountController extends BaseController {
         }
     }
 
+    /** Change username */
+    public async updateUsername(req: IRequest, res: Response, next: NextFunction) {
+        try {
+            // Get username
+            const { username } = req.body
+
+            // Set and change username
+            await req.user?.set({ username }).save()
+
+            // Return message
+            return this.infoMessage(res, {
+                message: "Your username has been successfully changed",
+                status: 200,
+            })
+        } catch (error) {
+            next(error)
+        }
+    }
+
     /** Get current user information */
     public async currentUser(req: IRequest, res: Response, next: NextFunction) {
         try {
