@@ -41,7 +41,7 @@ export default new class PasswordController extends BaseController {
         }
     }
 
-    /** Update and password recovery
+    /** Password recovery and remove sessions of user
      * @param code
      * @param password
      * @returns message
@@ -84,7 +84,7 @@ export default new class PasswordController extends BaseController {
         }
     }
 
-    /** Change user password
+    /** Change user password and remove sessions of user
      * @param oldPassword
      * @param newPassword
      * @returns message
