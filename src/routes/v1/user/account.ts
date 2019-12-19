@@ -1,12 +1,12 @@
 import express from "express"
 
 // controllers
-import accountController from "../../controllers/v1/authentication/accountController"
+import accountController from "../../../controllers/v1/authentication/accountController"
+import passwordController from "../../../controllers/v1/authentication/passwordController"
 
 // middleware
-import passwordController from "../../controllers/v1/authentication/passwordController"
-import { changePassword, checkCode, checkUsername } from "../../utilities/validatorSchema"
-import { validator } from "./../../middleware/validator"
+import { changePassword, checkCode, checkUsername } from "../../../utilities/validatorSchema"
+import { validator } from "./../../../middleware/validator"
 
 const router = express.Router()
 
@@ -14,7 +14,7 @@ const router = express.Router()
 router.get("/",
     accountController.currentUser.bind(accountController))
 
-router.post("/deactivateAccount",
+router.post("/deactivate",
     validator(checkCode),
     accountController.deactivation.bind(accountController))
 
