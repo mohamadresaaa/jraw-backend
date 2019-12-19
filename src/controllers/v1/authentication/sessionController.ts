@@ -13,7 +13,7 @@ export default new class SessionController extends BaseController {
             const sessions = await Session.find({
                 token: { $ne: req.headers.authorization },
                 user: req.user?.id,
-            })
+            }).lean()
 
             // Return message and sessions
             return this.infoMessage(res, {
