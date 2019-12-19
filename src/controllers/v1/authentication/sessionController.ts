@@ -2,6 +2,7 @@ import { NextFunction, Response } from "express"
 import Session from "../../../models/session"
 import { IRequest } from "../../../typings/interface/express"
 import BaseController from "../baseController"
+import { PublicInfoMessage } from "./../../../lib/messages"
 
 export default new class SessionController extends BaseController {
     /** Find all sessions of user
@@ -21,6 +22,22 @@ export default new class SessionController extends BaseController {
                 properties: sessions,
                 status: 200,
             })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    /** Find session with id and remove it
+     * @param id
+     * @returns message
+     */
+    public async delete(req: IRequest, res: Response, next: NextFunction) {
+        try {
+            // Find and remove session with id
+            await Session.findByIdAndRemove(req.params.id)
+
+            // Return message
+            return this.infoMessage(res, PublicInfoMessage.infoDeleted("Session"))
         } catch (error) {
             next(error)
         }
