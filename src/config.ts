@@ -15,7 +15,7 @@ export const config = {
     },
     server: {
         logLevel: process.env.LOG_LEVEL || "dev",
-        port: process.env.PORT || 3000,
+        port: process.env.PORT || 4000,
         privateKey: process.env.PRIVATE_KEY || "privateKey",
         publicKey: process.env.PUBLIC_KEY || "publicKey",
     },

@@ -1,5 +1,6 @@
 import { NextFunction, Response } from "express"
 import User from "../../../models/user"
+import userRepository from "../../../repositories/userRepository"
 import { EAction } from "../../../typings/enum/verificationCode"
 import { IRequest } from "../../../typings/interface/express"
 import BaseController from "../baseController"
@@ -14,7 +15,7 @@ export default new class RegisterController extends BaseController {
     public async handle(req: IRequest, res: Response, next: NextFunction) {
         try {
             // Get email, username, password from req.body and create user
-            const newUser = await new User({ ...req.body }).save()
+            const newUser = await userRepository.create({ ...req.body })
 
             // Create a verification code for account activation
             const verificationCode = await this.setVerificationCode(
