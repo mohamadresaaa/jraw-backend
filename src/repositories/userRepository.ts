@@ -1,5 +1,5 @@
 import User from "../models/user"
-import IUser from "../typings/interface/user"
+import { IUser } from "../typings/interface/user"
 import { ErrorMessage } from "./../lib/messages"
 
 export default new class UserRepository {
