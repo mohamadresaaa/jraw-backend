@@ -1,7 +1,7 @@
-import { Document } from "mongoose"
+import { Document, Model } from "mongoose"
 import { ERole, EStatus } from "./../enum/user"
 
-export default interface IUser extends Document {
+export interface IUser extends Document {
     avatar?: string
     bio?: string
     birthday?: Date
@@ -15,3 +15,5 @@ export default interface IUser extends Document {
     generateSession(): Promise<string>
     dataTransform(): any
 }
+
+export interface IUserModel extends Model<IUser> {}

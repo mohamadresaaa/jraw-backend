@@ -1,5 +1,4 @@
 import { NextFunction, Response } from "express"
-import User from "../../../models/user"
 import userRepository from "../../../repositories/userRepository"
 import { EAction } from "../../../typings/enum/verificationCode"
 import { IRequest } from "../../../typings/interface/express"

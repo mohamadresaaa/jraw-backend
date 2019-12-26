@@ -1,6 +1,6 @@
-import { Document } from "mongoose"
+import { Document, Model } from "mongoose"
 import { EAction } from "./../enum/verificationCode"
-import IUser from "./user"
+import { IUser } from "./user"
 
 export default interface IVerificationCode extends Document {
     code: string
@@ -9,3 +9,5 @@ export default interface IVerificationCode extends Document {
     used: boolean
     user: IUser
 }
+
+export interface IVerificationCodeModel extends Model<IVerificationCode> {}

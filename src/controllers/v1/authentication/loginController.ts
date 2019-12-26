@@ -2,7 +2,7 @@ import { NextFunction, Response } from "express"
 import User from "../../../models/user"
 import { EStatus } from "../../../typings/enum/user"
 import { IRequest } from "../../../typings/interface/express"
-import IUser from "../../../typings/interface/user"
+import { IUser } from "../../../typings/interface/user"
 import BaseController from "../baseController"
 import { ErrorMessage } from "./../../../lib/messages"
 
