@@ -9,8 +9,4 @@ export default abstract class BaseRepository {
         this.models = { ...models }
     }
 
-    async list(model: (keyof IModels), filter?: any, sort?: string) {
-        return await this.models[model].find({ ...filter }).sort(sort).lean()
-    }
-
 }
