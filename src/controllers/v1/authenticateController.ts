@@ -1,16 +1,16 @@
 import { NextFunction, Response } from "express"
-import signUpService from "../../../services/v1/authentication/signupService"
-import { IRequest } from "../../../typings/interface/express"
-import BaseController from "../baseController"
+import signUpService from "../../services/v1/authentication/signupService"
+import { IRequest } from "../../typings/interface/express"
+import BaseController from "./baseController"
 
-export default new class RegisterController extends BaseController {
+export default new class AuthenticateController extends BaseController {
     /** Sign up user
      * @returns message
      */
-    public async handle(req: IRequest, res: Response, next: NextFunction) {
+    public async registration(req: IRequest, res: Response, next: NextFunction) {
         try {
             /** Get email, username, password from req.body
-             * and calling User Registration Service
+             * and calling user sign up Service
              * @param email
              * @param username
              * @param password
