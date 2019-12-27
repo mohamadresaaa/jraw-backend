@@ -1,11 +1,11 @@
 import { Response } from "express"
 import models from "../../models"
-import {IModels} from "../../typings/interface/models"
+import { IModels } from "../../typings/interface/mongoose"
 import { ErrorMessage, PublicErrorMessage, PublicInfoMessage } from "./../../lib/messages"
 import VerificationCode from "./../../models/verificationCode"
 import { EAction } from "./../../typings/enum/verificationCode"
 import { IUser } from "./../../typings/interface/user"
-import IVerificationCode from "./../../typings/interface/verificationCode"
+import { IVerificationCode } from "./../../typings/interface/verificationCode"
 
 export default abstract class BaseController {
     /** @define models */

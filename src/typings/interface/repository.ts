@@ -1,4 +1,4 @@
-import { Document, Model } from "mongoose"
+import { Document } from "mongoose"
 
 export default interface IRepository {
     list(limit: number, filter?: any, sort?: string): Promise<Document[]>
