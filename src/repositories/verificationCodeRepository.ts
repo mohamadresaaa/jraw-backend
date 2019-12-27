@@ -14,11 +14,11 @@ export default new class VerificationCodeRepository extends BaseRepository imple
         return await new this.models.verificationCode({ ...data }).save()
     }
 
-    async update(id: IVerificationCode, data: object|IVerificationCode): Promise<IVerificationCode|null> {
-        return await this.models.verificationCode.findOneAndUpdate({ ...id }, { ...data }, { new: true })
+    async update(filter: object|IVerificationCode, data: object|IVerificationCode): Promise<IVerificationCode|null> {
+        return await this.models.verificationCode.findOneAndUpdate({ ...filter }, { ...data }, { new: true })
     }
 
-    async delete(id: IVerificationCode): Promise<void> {
-        await this.models.verificationCode.findByIdAndDelete(id)
+    async delete(filter: object|IVerificationCode): Promise<void> {
+        await this.models.verificationCode.deleteMany({ ...filter })
     }
 }

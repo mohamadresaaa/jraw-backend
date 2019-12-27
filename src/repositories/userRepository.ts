@@ -15,11 +15,11 @@ export default new class UserRepository extends BaseRepository implements IRepos
         return await new this.models.user({ ...data }).save()
     }
 
-    async update(id: IUser, data: object | IUser): Promise<IUser | null> {
-        return await this.models.user.findOneAndUpdate({ id }, { ...data }, { new: true })
+    async update(filter: object|IUser, data: object | IUser): Promise<IUser | null> {
+        return await this.models.user.findOneAndUpdate({ ...filter }, { ...data }, { new: true })
     }
 
-    async delete(id: IUser): Promise<void> {
-        await this.models.user.findByIdAndDelete(id)
+    async delete(filter: object|IUser): Promise<void> {
+        await this.models.user.deleteMany({ ...filter })
     }
 }
