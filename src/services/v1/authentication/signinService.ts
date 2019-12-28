@@ -1,6 +1,6 @@
 import userRepository from "../../../repositories/userRepository"
 import { EStatus } from "../../../typings/enum/user"
-import { ErrorMessage, PublicInfoMessage } from "./../../../lib/messages"
+import { ErrorMessage, PublicInfoMessage } from "../../../lib/messages"
 
 export default async ({ email, password }: { email: string, password: string }): Promise<PublicInfoMessage> => {
     try {

@@ -1,5 +1,5 @@
 import { NextFunction, Response } from "express"
-import signUpService from "../../services/v1/authentication/signupService"
+import signUpService from "../../services/v1/authentication/signUpService"
 import { IRequest } from "../../typings/interface/express"
 import BaseController from "./baseController"
 
