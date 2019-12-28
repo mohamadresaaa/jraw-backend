@@ -16,13 +16,10 @@ export default new class AuthenticateController extends BaseController {
              * @param username
              * @param password
              */
-            await signUpService({ ...req.body })
+            const result = await signUpService({ ...req.body })
 
             // Return message
-            return this.infoMessage(res, {
-                message: "Your account was successfully registered. Please refer to your email for activation",
-                status: 200,
-            })
+            return this.infoMessage(res, result)
         } catch (error) {
             next(error)
         }
@@ -42,7 +39,7 @@ export default new class AuthenticateController extends BaseController {
             const result = await signInService({ ...req.body })
 
             // Return message
-            this.infoMessage(res, result)
+            return this.infoMessage(res, result)
         } catch (error) {
             next(error)
         }

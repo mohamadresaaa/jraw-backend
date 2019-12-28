@@ -1,8 +1,9 @@
 import userRepository from "../../../repositories/userRepository"
 import verificationCodeRepository from "../../../repositories/verificationCodeRepository"
 import { EAction } from "../../../typings/enum/verificationCode"
+import { PublicInfoMessage } from "src/lib/messages"
 
-export default async (data: { email: string, password: string, username: string }) => {
+export default async (data: { email: string, password: string, username: string }): Promise<PublicInfoMessage> => {
     try {
         // Create new user
         const newUser = await userRepository.create({ ...data })
@@ -15,6 +16,10 @@ export default async (data: { email: string, password: string, username: string 
         })
 
         // Send verification code to email
+
+        // Return message
+        return new PublicInfoMessage("Please refer to your email for activation",
+            200)
     } catch (error) {
         throw error
     }
