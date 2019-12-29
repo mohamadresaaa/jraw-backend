@@ -13,18 +13,18 @@ const router = express.Router()
 // routes
 router.post("/register",
             validator(register),
-            registerController.handle.bind(registerController))
+            registerController.handle)
 router.post("/activateAccount",
             validator(checkCode),
-            accountController.activation.bind(accountController))
+            accountController.activation)
 router.post("/login",
             validator(login),
-            loginController.local.bind(loginController))
+            loginController.local)
 router.post("/forgotPassword",
             validator(forgotPassword),
-            passwordController.forgot.bind(passwordController))
+            passwordController.forgot)
 router.post("/resetPassword",
             validator(resetPassword),
-            passwordController.reset.bind(passwordController))
+            passwordController.reset)
 
 export default router

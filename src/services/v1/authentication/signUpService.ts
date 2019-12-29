@@ -1,7 +1,7 @@
+import { PublicInfoMessage } from "../../../lib/messages"
 import userRepository from "../../../repositories/userRepository"
 import verificationCodeRepository from "../../../repositories/verificationCodeRepository"
 import { EAction } from "../../../typings/enum/verificationCode"
-import { PublicInfoMessage } from "src/lib/messages"
 
 export default async (data: { email: string, password: string, username: string }): Promise<PublicInfoMessage> => {
     try {

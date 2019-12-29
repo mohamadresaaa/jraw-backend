@@ -1,7 +1,7 @@
 import { compare, genSaltSync, hash } from "bcrypt"
 import jwt from "jsonwebtoken"
 import mongoose, { Schema } from "mongoose"
-import IUser from "../typings/interface/user"
+import {IUser} from "../typings/interface/user"
 import { config } from "./../config"
 import { ErrorMessage } from "./../lib/messages"
 import Session from "./session"

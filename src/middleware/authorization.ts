@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 import Session from "../models/session"
 import { EStatus } from "../typings/enum/user"
 import { IRequest } from "../typings/interface/express"
-import ISession from "../typings/interface/session"
+import {ISession} from "../typings/interface/session"
 import { config } from "./../config"
 import { ErrorMessage } from "./../lib/messages"
 

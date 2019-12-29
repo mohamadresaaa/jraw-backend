@@ -12,18 +12,18 @@ const router = express.Router()
 
 // routes
 router.get("/",
-    accountController.currentUser.bind(accountController))
+    accountController.currentUser)
 
 router.post("/deactivate",
     validator(checkCode),
-    accountController.deactivation.bind(accountController))
+    accountController.deactivation)
 
 router.post("/changePassword",
     validator(changePassword),
-    passwordController.update.bind(passwordController))
+    passwordController.update)
 
 router.post("/changeUsername",
     validator(checkUsername),
-    accountController.updateUsername.bind(accountController))
+    accountController.updateUsername)
 
 export default router

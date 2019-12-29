@@ -7,6 +7,6 @@ const router = express.Router()
 
 // routes
 router.get("/",
-    sessionController.list.bind(sessionController))
+    sessionController.list)
 
 export default router

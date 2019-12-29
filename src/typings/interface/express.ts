@@ -1,5 +1,5 @@
 import { Request } from "express"
-import IUser from "./user"
+import {IUser} from "./user"
 
 export interface IRequest extends Request {
     value?: any

@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose"
 import { v4 } from "uuid"
-import IVerificationCode from "../typings/interface/verificationCode"
+import {IVerificationCode} from "../typings/interface/verificationCode"
 
 const verificationCodeSchema = new Schema({
     action: {

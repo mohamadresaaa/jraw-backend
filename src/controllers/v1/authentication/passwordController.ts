@@ -4,7 +4,7 @@ import Session from "../../../models/session"
 import User from "../../../models/user"
 import { EAction } from "../../../typings/enum/verificationCode"
 import { IRequest } from "../../../typings/interface/express"
-import IUser from "../../../typings/interface/user"
+import { IUser } from "../../../typings/interface/user"
 import BaseController from "../baseController"
 
 export default new class PasswordController extends BaseController {

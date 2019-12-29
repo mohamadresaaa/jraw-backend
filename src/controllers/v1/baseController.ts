@@ -1,3 +1,4 @@
+import autoBind from "auto-bind"
 import { Response } from "express"
 import models from "../../models"
 import { IModels } from "../../typings/interface/mongoose"
@@ -12,6 +13,7 @@ export default abstract class BaseController {
     protected models: IModels
 
     constructor() {
+        autoBind(this)
         this.models = { ...models }
     }
 

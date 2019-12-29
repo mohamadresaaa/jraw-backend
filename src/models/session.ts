@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose"
-import ISession from "src/typings/interface/session"
+import {ISession} from "src/typings/interface/session"
 
 const sessionSchema = new Schema({
     expiryDate: {

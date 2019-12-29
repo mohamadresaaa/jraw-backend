@@ -1,6 +1,5 @@
 import { NextFunction, Response } from "express"
-import signinService from "src/services/v1/authentication/signInService"
-import User from "../../../models/user"
+import signinService from "../../../services/v1/authentication/signInService"
 import { EStatus } from "../../../typings/enum/user"
 import { IRequest } from "../../../typings/interface/express"
 import { IUser } from "../../../typings/interface/user"
