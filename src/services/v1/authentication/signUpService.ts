@@ -1,20 +1,18 @@
 import { PublicInfoMessage } from "../../../lib/messages"
-import userRepository from "../../../repositories/userRepository"
-import verificationCodeRepository from "../../../repositories/verificationCodeRepository"
+import models from "../../../models"
 import { EAction } from "../../../typings/enum/verificationCode"
 
 export default async (data: { email: string, password: string, username: string }): Promise<PublicInfoMessage> => {
     try {
         // Create new user
-        const newUser = await userRepository.create({ ...data })
+        const newUser = await new models.user({ ...data })
 
         // Create a verification code for account activation
-        const newVerificationCode = await verificationCodeRepository.create({
+        const newVerificationCode = await new models.verificationCode({
             action: EAction.accountActivation,
             expiryDate: new Date(new Date().setDate(new Date().getDate() + 1)),
             user: newUser.id,
         })
-
         // Send verification code to email
 
         // Return message

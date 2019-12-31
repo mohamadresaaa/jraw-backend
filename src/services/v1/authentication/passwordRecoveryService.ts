@@ -1,17 +1,16 @@
 import { PublicInfoMessage } from "../../../lib/messages"
-import userRepository from "../../../repositories/userRepository"
-import verificationCodeRepository from "../../../repositories/verificationCodeRepository"
+import models from "../../../models"
 import { EAction } from "../../../typings/enum/verificationCode"
 
 export default async ({ email }: { email: string }): Promise<PublicInfoMessage> => {
     try {
         // Find user with email
-        const user = await userRepository.single({ email })
+        const user = await models.user.findOne({ email })
 
         // If user exists
         if (user) {
             // Create a verification code for password recovery
-            const verificationCode = await verificationCodeRepository.create({
+            const verificationCode = await new models.verificationCode({
                 action: EAction.passwordRecovery,
                 expiryDate: new Date(new Date().setMinutes(new Date().getMinutes() + 10)),
                 user: user.id,

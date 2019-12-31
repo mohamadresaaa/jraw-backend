@@ -1,30 +1,23 @@
-import userRepository from "../../../repositories/userRepository"
-import verificationCodeRepository from "../../../repositories/verificationCodeRepository"
+import models from "../../../models"
 import { EAction } from "../../../typings/enum/verificationCode"
 import { ErrorMessage, PublicInfoMessage } from "./../../../lib/messages"
 
 export default async ({ code, password }: { code: string, password: string }): Promise<PublicInfoMessage> => {
     try {
         // Find verification code
-        const verifyCode = await verificationCodeRepository.single({
+        const verifyCode = await models.verificationCode.findOne({
             action: EAction.passwordRecovery,
             code,
             expiryDate: { $gt: new Date() },
             used: false,
-        })
+        }).populate("user")
 
         // If find verification code, handle it
         if (verifyCode) {
-            // Find user with id and update password
-            const user = await userRepository.single({ id: verifyCode.user })
+            await verifyCode.user.set({ password }).save()
 
-            // If exists user, handle it
-            if (user) {
-                await user.set({ password }).save()
-
-                // Remove sessions of user
-                // await Session.deleteMany({ user: user.id })
-            }
+            // Remove sessions of user
+            // await Session.deleteMany({ user: user.id })
 
             // Expire verification code
             await verifyCode.updateOne({ used: true })

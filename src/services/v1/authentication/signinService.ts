@@ -1,11 +1,11 @@
-import userRepository from "../../../repositories/userRepository"
-import { EStatus } from "../../../typings/enum/user"
 import { ErrorMessage, PublicInfoMessage } from "../../../lib/messages"
+import models from "../../../models"
+import { EStatus } from "../../../typings/enum/user"
 
 export default async ({ email, password }: { email: string, password: string }): Promise<PublicInfoMessage> => {
     try {
         // Find user
-        const user = await userRepository.single({ $or: [{ email }, { username: email }] })
+        const user = await models.user.findOne({ $or: [{ email }, { username: email }] })
 
         // If find user, handle it
         if (user) {
