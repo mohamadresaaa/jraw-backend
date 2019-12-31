@@ -1,10 +1,10 @@
 import { NextFunction, Response } from "express"
-import { IUser } from "src/typings/interface/user"
 import { ErrorMessage } from "../../../lib/messages"
 import User from "../../../models/user"
 import { EStatus } from "../../../typings/enum/user"
 import { IRequest } from "../../../typings/interface/express"
 import BaseController from "../baseController"
+import accountDeactivationService from "./../../../services/v1/account/accountDeactivationService"
 import changePasswordService from "./../../../services/v1/account/changePasswordService"
 import { EAction } from "./../../../typings/enum/verificationCode"
 
@@ -73,35 +73,19 @@ export default new class AccountController extends BaseController {
     }
 
     /** Deactivate account with verification code
-     * @param code
-     * @returns message
+     * @return message
      */
     public async deactivation(req: IRequest, res: Response, next: NextFunction) {
         try {
-            // Get code
-            const { code } = req.body
+            /** Get code from req.body
+             *  calling account deactivation service
+             * @param code
+             * @return publicInfoMessage
+             */
+            const result = await accountDeactivationService({ ...req.body })
 
-            // Find verification code
-            const verifyCode = await this.getVerificationCode(EAction.accountDeactivation, code, req.user?.id)
-
-            // If find verification code, handle it
-            if (verifyCode) {
-                // Update user status
-                await req.user?.update({ status: EStatus.inactive })
-
-                // Expire verification code
-                await verifyCode.updateOne({ used: true })
-
-                // Return message
-                return this.infoMessage(res, {
-                    message: "Your account has been successfully deactivated",
-                    status: 200,
-                })
-            }
-
-            // If not verification code is found Or verification code is expired
-            this.errorMessage(ErrorMessage.errNotFound("Verification code",
-                "Verification code is incorrect"))
+            // Return message
+            return this.infoMessage(res, result)
         } catch (error) {
             next(error)
         }
