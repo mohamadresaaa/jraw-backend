@@ -1,9 +1,11 @@
 import { NextFunction, Response } from "express"
+import { IUser } from "src/typings/interface/user"
 import { ErrorMessage } from "../../../lib/messages"
 import User from "../../../models/user"
 import { EStatus } from "../../../typings/enum/user"
 import { IRequest } from "../../../typings/interface/express"
 import BaseController from "../baseController"
+import changePasswordService from "./../../../services/v1/account/changePasswordService"
 import { EAction } from "./../../../typings/enum/verificationCode"
 
 export default new class AccountController extends BaseController {
@@ -100,6 +102,32 @@ export default new class AccountController extends BaseController {
             // If not verification code is found Or verification code is expired
             this.errorMessage(ErrorMessage.errNotFound("Verification code",
                 "Verification code is incorrect"))
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    /** Change user password and remove sessions of user
+     * @return message
+     */
+    public async updatePassword(req: IRequest, res: Response, next: NextFunction) {
+        try {
+            if (req.user) {
+                /** Get oldPassword, newPassword from req.body
+                 *  and get current user in req.user,
+                 *  calling change password service
+                 * @param user
+                 * @param oldPassword
+                 * @param newPassword
+                 * @return publicInfoMessage
+                 */
+                const result = await changePasswordService(req.user, { ...req.body })
+
+                // Return message
+                return this.infoMessage(res, result)
+            }
+
+            throw new ErrorMessage("Unauthorized", "Authentication failed", 401)
         } catch (error) {
             next(error)
         }

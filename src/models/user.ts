@@ -74,7 +74,7 @@ userSchema.pre<IUser>("save", async function(next) {
 
 /** Compare passwords
  * @param password
- * @returns boolean true/false
+ * @return true/false
  */
 userSchema.methods.comparePassword = async function(password: string) {
   return compare(password, this.password)
