@@ -22,8 +22,8 @@ router.post("/changePassword",
     validator(changePassword),
     passwordController.update)
 
-router.post("/changeUsername",
-    validator(checkUsername),
-    accountController.updateUsername)
+// router.post("/changeUsername",
+//     validator(checkUsername),
+//     accountController.updateUsername)
 
 export default router

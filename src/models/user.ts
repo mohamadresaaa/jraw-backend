@@ -1,7 +1,8 @@
 import { compare, genSaltSync, hash } from "bcrypt"
-import jwt from "jsonwebtoken"
-import mongoose, { Schema } from "mongoose"
-import {IUser} from "../typings/interface/user"
+import { sign } from "jsonwebtoken"
+import { model, Schema } from "mongoose"
+import { EStatus } from "../typings/enum/user"
+import { IUser } from "../typings/interface/user"
 import { config } from "./../config"
 import { ErrorMessage } from "./../lib/messages"
 import Session from "./session"
@@ -39,11 +40,11 @@ const userSchema = new Schema({
     type: String,
   },
   role: {
-    default: 1,
-    type: Number,
+    default: ["user"],
+    type: [String],
   },
   status: {
-    default: 2,
+    default: EStatus.inactive,
     type: Number,
   },
   username: {
@@ -86,7 +87,7 @@ userSchema.methods.comparePassword = async function(password: string) {
  */
 userSchema.methods.generateSession = async function(): Promise<string> {
   // Generate jwt token
-  const token = jwt.sign({
+  const token = sign({
     iss: "jraw",
     sub: this.id,
   }, config.server.publicKey + config.server.privateKey)
@@ -117,4 +118,4 @@ userSchema.methods.dataTransform = function(): any {
   }
 }
 
-export default mongoose.model<IUser>("User", userSchema)
+export default model<IUser>("User", userSchema)
