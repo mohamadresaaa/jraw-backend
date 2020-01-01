@@ -1,8 +1,8 @@
 import express from "express"
 
 // controllers
-import accountController from "../../../controllers/v1/authentication/accountController"
-import passwordController from "../../../controllers/v1/authentication/passwordController"
+import accountController from "../../../controllers/v1/user/accountController"
+import passwordController from "../../../controllers/v1/user/passwordController"
 
 // middleware
 import { changePassword, checkCode, checkUsername } from "../../../utilities/validatorSchema"

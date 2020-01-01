@@ -1,6 +1,4 @@
 import { NextFunction, Response } from "express"
-import passwordRecoveryService from "../../services/v1/authentication/passwordRecoveryService"
-import resetPasswordService from "../../services/v1/authentication/resetPasswordService"
 import signInService from "../../services/v1/authentication/signInService"
 import signUpService from "../../services/v1/authentication/signUpService"
 import { IRequest } from "../../typings/interface/express"

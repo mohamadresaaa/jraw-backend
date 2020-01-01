@@ -1,8 +1,8 @@
 import { NextFunction, Response } from "express"
+import { PublicInfoMessage } from "../../../lib/messages"
 import Session from "../../../models/session"
 import { IRequest } from "../../../typings/interface/express"
 import BaseController from "../baseController"
-import { PublicInfoMessage } from "./../../../lib/messages"
 
 export default new class SessionController extends BaseController {
     /** Find all sessions of user

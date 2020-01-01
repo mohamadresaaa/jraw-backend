@@ -1,7 +1,7 @@
 import express from "express"
 
 // controllers
-import sessionController from "../../../controllers/v1/authentication/sessionController"
+import sessionController from "../../../controllers/v1/user/sessionController"
 
 const router = express.Router()
 
