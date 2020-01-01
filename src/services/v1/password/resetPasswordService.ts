@@ -1,6 +1,6 @@
+import { ErrorMessage, PublicInfoMessage } from "../../../lib/messages"
 import models from "../../../models"
 import { EAction } from "../../../typings/enum/verificationCode"
-import { ErrorMessage, PublicInfoMessage } from "./../../../lib/messages"
 
 export default async ({ code, password }: { code: string, password: string }): Promise<PublicInfoMessage> => {
     try {

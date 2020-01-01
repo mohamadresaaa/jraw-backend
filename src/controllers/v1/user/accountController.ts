@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express"
 import { ErrorMessage } from "../../../lib/messages"
 import User from "../../../models/user"
-import passwordChangeService from "../../../services/v1/account/passwordChangeService"
+import passwordChangeService from "../../../services/v1/password/passwordChangeService"
 import { EStatus } from "../../../typings/enum/user"
 import { IRequest } from "../../../typings/interface/express"
 import BaseController from "../baseController"
@@ -44,25 +44,6 @@ export default new class AccountController extends BaseController {
         }
     }
 
-    /** Change username */
-    public async updateUsername(req: IRequest, res: Response, next: NextFunction) {
-        try {
-            // Get username
-            const { username } = req.body
-
-            // Set and change username
-            await req.user?.set({ username }).save()
-
-            // Return message
-            return this.infoMessage(res, {
-                message: "Your username has been successfully changed",
-                status: 200,
-            })
-        } catch (error) {
-            next(error)
-        }
-    }
-
     /** Get current user information */
     public async currentUser(req: IRequest, res: Response, next: NextFunction) {
         try {
@@ -86,32 +67,6 @@ export default new class AccountController extends BaseController {
 
             // Return message
             return this.infoMessage(res, result)
-        } catch (error) {
-            next(error)
-        }
-    }
-
-    /** Change user password and remove sessions of user
-     * @return message
-     */
-    public async updatePassword(req: IRequest, res: Response, next: NextFunction) {
-        try {
-            if (req.user) {
-                /** Get oldPassword, newPassword from req.body
-                 *  and get current user in req.user,
-                 *  calling change password service
-                 * @param user
-                 * @param oldPassword
-                 * @param newPassword
-                 * @return publicInfoMessage
-                 */
-                const result = await passwordChangeService(req.user, { ...req.body })
-
-                // Return message
-                return this.infoMessage(res, result)
-            }
-
-            throw new ErrorMessage("Unauthorized", "Authentication failed", 401)
         } catch (error) {
             next(error)
         }

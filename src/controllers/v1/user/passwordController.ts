@@ -5,9 +5,9 @@ import { NextFunction, Response } from "express"
 import { IRequest } from "../../../typings/interface/express"
 
 // services
-import passwordChangeService from "../../../services/v1/account/passwordChangeService"
-import passwordRecoveryService from "../../../services/v1/authentication/passwordRecoveryService"
-import resetPasswordService from "../../../services/v1/authentication/resetPasswordService"
+import passwordChangeService from "../../../services/v1/password/passwordChangeService"
+import passwordRecoveryService from "../../../services/v1/password/passwordRecoveryService"
+import resetPasswordService from "../../../services/v1/password/resetPasswordService"
 
 export default new class PasswordController extends BaseController {
     /** Send password recovery link to email
