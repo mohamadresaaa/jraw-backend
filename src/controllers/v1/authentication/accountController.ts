@@ -1,11 +1,11 @@
 import { NextFunction, Response } from "express"
 import { ErrorMessage } from "../../../lib/messages"
 import User from "../../../models/user"
+import passwordChangeService from "../../../services/v1/account/passwordChangeService"
 import { EStatus } from "../../../typings/enum/user"
 import { IRequest } from "../../../typings/interface/express"
 import BaseController from "../baseController"
 import accountDeactivationService from "./../../../services/v1/account/accountDeactivationService"
-import changePasswordService from "./../../../services/v1/account/changePasswordService"
 import { EAction } from "./../../../typings/enum/verificationCode"
 
 export default new class AccountController extends BaseController {
@@ -105,7 +105,7 @@ export default new class AccountController extends BaseController {
                  * @param newPassword
                  * @return publicInfoMessage
                  */
-                const result = await changePasswordService(req.user, { ...req.body })
+                const result = await passwordChangeService(req.user, { ...req.body })
 
                 // Return message
                 return this.infoMessage(res, result)

@@ -1,43 +1,78 @@
-import { NextFunction, Response } from "express"
-import { ErrorMessage } from "../../../lib/messages"
-import Session from "../../../models/session"
-import User from "../../../models/user"
-import { EAction } from "../../../typings/enum/verificationCode"
-import { IRequest } from "../../../typings/interface/express"
-import { IUser } from "../../../typings/interface/user"
 import BaseController from "../baseController"
 
+// types
+import { NextFunction, Response } from "express"
+import { IRequest } from "../../../typings/interface/express"
+
+// services
+import passwordChangeService from "../../../services/v1/account/passwordChangeService"
+import passwordRecoveryService from "../../../services/v1/authentication/passwordRecoveryService"
+import resetPasswordService from "../../../services/v1/authentication/resetPasswordService"
+
 export default new class PasswordController extends BaseController {
+    /** Send password recovery link to email
+     * @return message
+     */
+    public async recovery(req: IRequest, res: Response, next: NextFunction) {
+        try {
+            /** Get email from req.body
+             * and calling password recovery service
+             * @param email
+             * @return publicInfoMessage
+             */
+            const result = await passwordRecoveryService({ ...req.body })
+
+            // Return message
+            return this.infoMessage(res, result)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    /** Reset password user and remove sessions of user
+     * @return message
+     */
+    public async reset(req: IRequest, res: Response, next: NextFunction) {
+        try {
+            /** Get code, password from req.body
+             * and calling reset password service
+             * @param code
+             * @param password
+             * @return publicInfoMessage
+             */
+            const result = await resetPasswordService({ ...req.body })
+
+            // Return message
+            return this.infoMessage(res, result)
+        } catch (error) {
+            next(error)
+        }
+    }
+
     /** Change user password and remove sessions of user
-     * @param oldPassword
-     * @param newPassword
-     * @returns message
+     * @return message
      */
     public async update(req: IRequest, res: Response, next: NextFunction) {
         try {
-            // Get oldPassword and newPassword
-            const { oldPassword, newPassword } = req.body
-
-            // If password is the same
-            if (req.user?.comparePassword(oldPassword)) {
-                // Update password
-                await req.user.set({ password: newPassword }).save()
-
-                // Remove sessions of user
-                await Session.deleteMany({ user: req.user.id })
+            if (req.user) {
+                /** Get oldPassword, newPassword from req.body
+                 *  and get current user in req.user,
+                 *  calling change password service
+                 * @param user
+                 * @param oldPassword
+                 * @param newPassword
+                 * @return publicInfoMessage
+                 */
+                const result = await passwordChangeService(req.user, { ...req.body })
 
                 // Return message
-                return this.infoMessage(res, {
-                    message: "Your password has been successfully changed",
-                    status: 200,
-                })
+                return this.infoMessage(res, result)
             }
 
-            // Otherwise
             this.errorMessage({
-                message: "Old password is incorrect",
-                name: "Invalid Data",
-                status: 422,
+                message: "Authentication failed",
+                name: "Unauthorized",
+                status: 401,
             })
         } catch (error) {
             next(error)
