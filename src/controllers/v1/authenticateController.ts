@@ -46,43 +46,4 @@ export default new class AuthenticateController extends BaseController {
             next(error)
         }
     }
-
-    /** Send password recovery email to user email
-     * @return message
-     */
-    public async passwordRecovery(req: IRequest, res: Response, next: NextFunction) {
-        try {
-            /** Get email from req.body
-             * and calling password recovery service
-             * @param email
-             * @return publicInfoMessage
-             */
-            const result = await passwordRecoveryService({ ...req.body })
-
-            // Return message
-            return this.infoMessage(res, result)
-        } catch (error) {
-            next(error)
-        }
-    }
-
-    /** Reset password user and remove sessions of user
-     * @return message
-     */
-    public async resetPassword(req: IRequest, res: Response, next: NextFunction) {
-        try {
-            /** Get code, password from req.body
-             * and calling reset password service
-             * @param code
-             * @param password
-             * @return publicInfoMessage
-             */
-            const result = await resetPasswordService({ ...req.body })
-
-            // Return message
-            return this.infoMessage(res, result)
-        } catch (error) {
-            next(error)
-        }
-    }
 }
