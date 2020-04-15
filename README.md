@@ -1,5 +1,3 @@
-# jraw
-
 ## How run project for `test` & `developing`
 
 - step 1: Download project
@@ -19,8 +17,3 @@ npm i Or npm install
 ```
 npm run dev
 ```
-
-## Feedback
-
-- instagram [@mohamadresaaa](https://instagram.com/mohamadresaaa)
-- linkedin [@mohamadreza-mosalli](https://www.linkedin.com/in/mohamadreza-mosalli-27965a199/)
