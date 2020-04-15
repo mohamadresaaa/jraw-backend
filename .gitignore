@@ -59,3 +59,6 @@ jspm_packages/
 
 # output directory
 dist/ 
+
+# package-lock
+package-lock.json
